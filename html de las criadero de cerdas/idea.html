@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Criadero de Cerdos</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #8b4513;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .header {
+            background-color: #d2b48c;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #5d4037;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #a1887f;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #8d6e63;
+        }
+        .section {
+            margin-bottom: 30px;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .section-title {
+            background-color: #efebe9;
+            padding: 5px 10px;
+            margin: -15px -15px 15px -15px;
+            border-radius: 5px 5px 0 0;
+            font-weight: bold;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .animal-card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #fff8e1;
+        }
+        .alertas {
+            background-color: #ffebee;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        .foto-placeholder {
+            width: 100%;
+            height: 120px;
+            background-color: #eee;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐷 Registro de Criadero de Cerdos 🐖</h1>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Información General del Criadero</div>
+            <div class="grid">
+                <div class="form-group">
+                    <label for="nombre-criadero">Nombre del Criadero</label>
+                    <input type="text" id="nombre-criadero" placeholder="Ej: Granja Los Laureles">
+                </div>
+                <div class="form-group">
+                    <label for="propietario">Propietario</label>
+                    <input type="text" id="propietario" placeholder="Nombre completo">
+                </div>
+                <div class="form-group">
+                    <label for="ubicacion">Ubicación</label>
+                    <input type="text" id="ubicacion" placeholder="Dirección o coordenadas">
+                </div>
+                <div class="form-group">
+                    <label for="telefono">Teléfono</label>
+                    <input type="tel" id="telefono" placeholder="Número de contacto">
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Registro de Cerda</div>
+            <div class="grid">
+                <div class="form-group">
+                    <label for="numero-arete">Número de arete/identificación</label>
+                    <input type="text" id="numero-arete" placeholder="Ej: CER-001">
+                </div>
+                <div class="form-group">
+                    <label for="fecha-nacimiento">Fecha de nacimiento</label>
+                    <input type="date" id="fecha-nacimiento">
+                </div>
+                <div class="form-group">
+                    <label for="raza">Raza</label>
+                    <select id="raza">
+                        <option value="">Seleccionar</option>
+                        <option value="landrace">Landrace</option>
+                        <option value="large-white">Large White</option>
+                        <option value="duroc">Duroc</option>
+                        <option value="pietrain">Pietrain</option>
+                        <option value="hibrida">Híbrida</option>
+                        <option value="criolla">Criolla</option>
+                        <option value="otra">Otra</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="peso">Peso actual (kg)</label>
+                    <input type="number" id="peso" placeholder="Ej: 120">
+                </div>
+                <div class="form-group">
+                    <label for="estado-reproductivo">Estado reproductivo</label>
+                    <select id="estado-reproductivo">
+                        <option value="">Seleccionar</option>
+                        <option value="vacia">Vacía</option>
+                        <option value="gestante">Gestante</option>
+                        <option value="lactante">Lactante</option>
+                        <option value="destetada">Destetada</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="fecha-cubricion">Fecha última cubrición</label>
+                    <input type="date" id="fecha-cubricion">
+                </div>
+                <div class="form-group">
+                    <label for="fecha-parto">Fecha probable parto</label>
+                    <input type="date" id="fecha-parto">
+                </div>
+                <div class="form-group">
+                    <label for="fecha-destete">Fecha destete</label>
+                    <input type="date" id="fecha-destete">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="observaciones">Observaciones</label>
+                <textarea id="observaciones" rows="3" placeholder="Notas importantes sobre la cerda"></textarea>
+            </div>
+            <div class="form-group">
+                <label>Fotografía (opcional)</label>
+                <div class="foto-placeholder">+ Agregar foto</div>
+                <input type="file" id="foto-cerda" accept="image/*">
+            </div>
+            <button type="button">Guardar registro de cerda</button>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Registro de Camada</div>
+            <div class="grid">
+                <div class="form-group">
+                    <label for="numero-camada">Número de camada</label>
+                    <input type="text" id="numero-camada" placeholder="Ej: CAM-001">
+                </div>
+                <div class="form-group">
+                    <label for="fecha-nacimiento-camada">Fecha de nacimiento</label>
+                    <input type="date" id="fecha-nacimiento-camada">
+                </div>
+                <div class="form-group">
+                    <label for="cantidad-lechones">Cantidad de lechones</label>
+                    <input type="number" id="cantidad-lechones" placeholder="Total nacidos">
+                </div>
+                <div class="form-group">
+                    <label for="lechones-vivos">Lechones vivos</label>
+                    <input type="number" id="lechones-vivos" placeholder="Cantidad actual">
+                </div>
+                <div class="form-group">
+                    <label for="peso-promedio">Peso promedio al nacer (kg)</label>
+                    <input type="number" step="0.1" id="peso-promedio" placeholder="Ej: 1.4">
+                </div>
+            </div>
+            <button type="button">Guardar registro de camada</button>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Registro de Vacunas y Tratamientos</div>
+            <div class="grid">
+                <div class="form-group">
+                    <label for="fecha-vacuna">Fecha</label>
+                    <input type="date" id="fecha-vacuna">
+                </div>
+                <div class="form-group">
+                    <label for="tipo-vacuna">Vacuna/Tratamiento</label>
+                    <select id="tipo-vacuna">
+                        <option value="">Seleccionar</option>
+                        <option value="peste-porcina">Peste porcina</option>
+                        <option value="erisipela">Erisipela</option>
+                        <option value="parvovirus">Parvovirus</option>
+                        <option value="desparasitacion">Desparasitación</option>
+                        <option value="antibiotico">Antibiótico</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="nombre-producto">Nombre del producto</label>
+                    <input type="text" id="nombre-producto" placeholder="Ej: Circovac">
+                </div>
+                <div class="form-group">
+                    <label for="dosis">Dosis</label>
+                    <input type="text" id="dosis" placeholder="Ej: 2 ml">
+                </div>
+            </div>
+            <button type="button">Guardar registro de vacuna</button>
+        </div>
+        
+        <div class="alertas">
+            <h3>📢 Alertas y Recordatorios</h3>
+            <p>- Cerda CER-001: Próxima vacuna contra peste porcina en 5 días</p>
+            <p>- Cerda CER-005: Fecha probable de parto el 15/10/2023</p>
+            <p>- Camada CAM-012: Próximo destete en 3 días</p>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Resumen del Criadero</div>
+            <div class="grid">
+                <div class="animal-card">
+                    <h3>Total Cerdas</h3>
+                    <p style="font-size: 24px; text-align: center;">45</p>
+                </div>
+                <div class="animal-card">
+                    <h3>En gestación</h3>
+                    <p style="font-size: 24px; text-align: center;">12</p>
+                </div>
+                <div class="animal-card">
+                    <h3>En lactancia</h3>
+                    <p style="font-size: 24px; text-align: center;">8</p>
+                </div>
+                <div class="animal-card">
+                    <h3>Lechones</h3>
+                    <p style="font-size: 24px; text-align: center;">96</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -2,282 +2,2349 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro de Criadero de Cerdos</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Mi Rancho Porcino Digital</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f5f5f5;
-            color: #333;
-            margin: 0;
-            padding: 20px;
+        :root {
+            --color-madera: #8B4513;
+            --color-madera-claro: #A0522D;
+            --color-paja: #F5DEB3;
+            --color-verde-pasto: #4CAF50;
+            --color-verde-oscuro: #2E7D32;
+            --color-rojo-granja: #D32F2F;
+            --color-azul-cielo: #87CEEB;
+            --color-texto: #5D4037;
+            --color-blanco: #FFF8E1;
+            --color-borde: #BCAAA4;
         }
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            background-color: white;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            color: #8b4513;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        .header {
-            background-color: #d2b48c;
-            padding: 10px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-            color: #5d4037;
-        }
-        input, select, textarea {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        
+        * {
             box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', 'Arial Rounded MT Bold', sans-serif;
         }
-        button {
-            background-color: #a1887f;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
+        
+        body {
+            background-color: var(--color-paja);
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="%23A0522D" fill-opacity="0.1" d="M30,50 Q50,30 70,50 T90,50 T70,70 T50,90 T30,70 T10,50 T30,30 Z"/></svg>');
+            background-size: 200px;
+            color: var(--color-texto);
+            line-height: 1.6;
+            touch-action: manipulation;
         }
-        button:hover {
-            background-color: #8d6e63;
-        }
-        .section {
-            margin-bottom: 30px;
-            padding: 15px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .section-title {
-            background-color: #efebe9;
-            padding: 5px 10px;
-            margin: -15px -15px 15px -15px;
-            border-radius: 5px 5px 0 0;
-            font-weight: bold;
-        }
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        .animal-card {
-            border: 1px solid #ddd;
-            padding: 10px;
-            border-radius: 5px;
-            background-color: #fff8e1;
-        }
-        .alertas {
-            background-color: #ffebee;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-        .foto-placeholder {
+        
+        .container {
             width: 100%;
-            height: 120px;
-            background-color: #eee;
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 0;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 90px;
+        }
+        
+        .header {
+            background: linear-gradient(to right, var(--color-madera), var(--color-madera-claro));
+            color: var(--color-blanco);
+            padding: 20px 15px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            position: relative;
+            border-bottom: 4px solid var(--color-verde-oscuro);
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 5px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .header .subtitle {
+            font-size: 14px;
+            opacity: 0.9;
+            font-style: italic;
+        }
+        
+        .login-container {
+            background-color: var(--color-blanco);
+            border: 2px solid var(--color-madera);
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+            padding: 25px;
+            max-width: 400px;
+            margin: 40px auto;
+            background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><path fill="%238B4513" fill-opacity="0.05" d="M20,20 L80,20 L80,80 L20,80 Z"/></svg>');
+        }
+        
+        .login-tabs {
+            display: flex;
+            width: 100%;
+            margin-bottom: 25px;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: var(--color-paja);
+            border: 1px solid var(--color-madera);
+        }
+        
+        .login-tab {
+            flex: 1;
+            padding: 12px;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--color-texto);
+        }
+        
+        .login-tab.active {
+            background-color: var(--color-madera);
+            color: var(--color-blanco);
+        }
+        
+        .form-group {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--color-texto);
+        }
+        
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            border: 2px solid var(--color-madera);
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+            background-color: var(--color-blanco);
+        }
+        
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            border-color: var(--color-verde-oscuro);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.3);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 10px;
+            font-size: 17px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, var(--color-verde-pasto), var(--color-verde-oscuro));
+            color: white;
+            text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(2px) scale(0.98);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(to right, var(--color-madera), var(--color-madera-claro));
+            color: white;
+        }
+        
+        .btn-secondary:active {
+            transform: translateY(2px) scale(0.98);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(to right, var(--color-rojo-granja), #B71C1C);
+            color: white;
+        }
+        
+        .btn-danger:active {
+            transform: translateY(2px) scale(0.98);
+        }
+        
+        .icon {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        /* Main App Styles */
+        #main-app {
+            display: none;
+        }
+        
+        .dashboard-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            padding: 20px;
+        }
+        
+        .dashboard-card {
+            background-color: var(--color-blanco);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: all 0.3s;
+            border: 2px solid var(--color-madera);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dashboard-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(to right, var(--color-madera), var(--color-madera-claro));
+        }
+        
+        .dashboard-card:active {
+            transform: translateY(3px) scale(0.98);
+        }
+        
+        .dashboard-card .card-icon {
+            font-size: 32px;
+            margin-bottom: 15px;
+            color: var(--color-madera);
+        }
+        
+        .dashboard-card .card-title {
+            font-size: 15px;
+            color: var(--color-texto);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        
+        .dashboard-card .card-value {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--color-madera);
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: 700;
+            padding: 18px 20px;
+            color: var(--color-texto);
+            border-bottom: 2px solid var(--color-madera);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            background-color: var(--color-blanco);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .section-title .icon {
+            color: var(--color-madera);
+        }
+        
+        .animal-list {
+            padding: 0 15px 15px;
+        }
+        
+        .animal-category {
+            margin-bottom: 25px;
+            background-color: var(--color-blanco);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 2px solid var(--color-madera);
+            transition: transform 0.3s;
+        }
+        
+        .animal-category:active {
+            transform: translateY(3px);
+        }
+        
+        .category-header {
+            background: linear-gradient(to right, var(--color-madera), var(--color-madera-claro));
+            color: var(--color-blanco);
+            padding: 15px 20px;
+            font-weight: 700;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+        }
+        
+        .category-header .total {
+            background-color: rgba(255,255,255,0.3);
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 15px;
+            font-weight: 700;
+        }
+        
+        .animal-item {
+            padding: 15px 20px;
+            border-bottom: 1px dashed var(--color-borde);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        
+        .animal-item:last-child {
+            border-bottom: none;
+        }
+        
+        .animal-item:active {
+            background-color: var(--color-paja);
+        }
+        
+        .animal-name {
+            font-weight: 600;
+            color: var(--color-texto);
+        }
+        
+        .animal-details {
+            font-size: 13px;
+            color: #795548;
+            margin-top: 5px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .animal-detail {
+            display: flex;
+            align-items: center;
+        }
+        
+        .animal-detail .detail-icon {
+            margin-right: 3px;
+            font-size: 14px;
+        }
+        
+        .animal-status {
+            font-size: 13px;
+            padding: 5px 10px;
+            border-radius: 12px;
+            background-color: #f0f0f0;
+            font-weight: 600;
+            min-width: 80px;
+            text-align: center;
+        }
+        
+        .status-pregnant {
+            background-color: #FFEBEE;
+            color: var(--color-rojo-granja);
+            border: 1px solid #EF9A9A;
+        }
+        
+        .status-lactating {
+            background-color: #E8F5E9;
+            color: var(--color-verde-oscuro);
+            border: 1px solid #A5D6A7;
+        }
+        
+        .status-breeding {
+            background-color: #E3F2FD;
+            color: var(--color-azul-cielo);
+            border: 1px solid #90CAF9;
+        }
+        
+        .status-castrated {
+            background-color: #F3E5F5;
+            color: var(--color-madera-claro);
+            border: 1px solid #CE93D8;
+        }
+        
+        .status-empty {
+            background-color: #FFF8E1;
+            color: #FFA000;
+            border: 1px solid #FFE082;
+        }
+        
+        .add-animal-btn {
+            position: fixed;
+            bottom: 100px;
+            right: 25px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(to bottom, var(--color-verde-pasto), var(--color-verde-oscuro));
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            z-index: 10;
+            border: none;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+            border: 3px solid var(--color-blanco);
+        }
+        
+        .add-animal-btn:active {
+            transform: translateY(3px) scale(0.95);
+        }
+        
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--color-blanco);
+            display: flex;
+            justify-content: space-around;
+            padding: 12px 0;
+            box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+            border-top: 2px solid var(--color-madera);
+        }
+        
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            color: var(--color-texto);
+            font-size: 13px;
+            padding: 5px 10px;
+            border-radius: 10px;
+            transition: all 0.3s;
+        }
+        
+        .nav-item.active {
+            background-color: var(--color-paja);
+            color: var(--color-madera);
+            font-weight: 600;
+            transform: translateY(-5px);
+        }
+        
+        .nav-item:active {
+            background-color: var(--color-paja);
+        }
+        
+        .nav-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .stats-container {
+            padding: 15px 20px;
+            background-color: var(--color-blanco);
+            margin: 15px;
+            border-radius: 15px;
+            border: 2px solid var(--color-madera);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .stats-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--color-madera);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            padding-bottom: 8px;
+            border-bottom: 2px dashed var(--color-borde);
+        }
+        
+        .stats-title .icon {
+            color: var(--color-madera);
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .stat-card {
+            background-color: var(--color-paja);
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+            border: 1px solid var(--color-madera);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .stat-card::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(to right, var(--color-madera), var(--color-madera-claro));
+        }
+        
+        .stat-card .stat-title {
+            font-size: 14px;
+            color: var(--color-texto);
             margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        .stat-card .stat-value {
+            font-size: 26px;
+            font-weight: 800;
+            color: var(--color-madera);
+        }
+        
+        .stat-card .stat-icon {
+            font-size: 24px;
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            opacity: 0.2;
+            color: var(--color-madera);
+        }
+        
+        .gender-tabs {
+            display: flex;
+            margin: 15px;
+            background-color: var(--color-paja);
+            border-radius: 12px;
+            overflow: hidden;
+            border: 2px solid var(--color-madera);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+        
+        .gender-tab {
+            flex: 1;
+            padding: 14px;
+            text-align: center;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s;
+            color: var(--color-texto);
+        }
+        
+        .gender-tab.active {
+            background: linear-gradient(to bottom, var(--color-madera), var(--color-madera-claro));
+            color: var(--color-blanco);
+            text-shadow: 0 1px 1px rgba(0,0,0,0.2);
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--color-blanco);
+            font-size: 20px;
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        
+        .pig-icon {
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+        }
+        
+        .detail-screen {
+            padding-bottom: 30px;
+        }
+        
+        .detail-header {
+            background: linear-gradient(to right, var(--color-madera), var(--color-madera-claro));
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .detail-header h2 {
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+        
+        .detail-header .pig-status {
+            background-color: rgba(255,255,255,0.3);
+            padding: 5px 15px;
+            border-radius: 20px;
+            display: inline-block;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .detail-content {
+            padding: 20px;
+            background-color: var(--color-blanco);
+            margin: 15px;
+            border-radius: 15px;
+            border: 2px solid var(--color-madera);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        .detail-section {
+            margin-bottom: 20px;
+        }
+        
+        .detail-section h3 {
+            font-size: 18px;
+            color: var(--color-madera);
+            margin-bottom: 10px;
+            padding-bottom: 5px;
+            border-bottom: 2px dashed var(--color-borde);
+            display: flex;
+            align-items: center;
+        }
+        
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--color-borde);
+        }
+        
+        .detail-row:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 600;
+            color: var(--color-texto);
+        }
+        
+        .detail-value {
+            color: #795548;
+            text-align: right;
+        }
+        
+        .timeline {
+            margin-top: 20px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 30px;
+            margin-bottom: 20px;
+        }
+        
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: 8px;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background-color: var(--color-madera);
+        }
+        
+        .timeline-item::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background-color: var(--color-verde-pasto);
+            border: 3px solid var(--color-madera);
+        }
+        
+        .timeline-date {
+            font-weight: 600;
+            color: var(--color-madera);
+            margin-bottom: 5px;
+        }
+        
+        .timeline-content {
+            background-color: var(--color-paja);
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid var(--color-borde);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .action-btn {
+            flex: 1;
+            padding: 12px;
+            border-radius: 10px;
+            border: none;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+        
+        .action-btn .icon {
+            margin-right: 8px;
+        }
+        
+        /* Estilos para el módulo de ventas */
+        .porcino-info-venta {
+            background-color: var(--color-paja);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid var(--color-madera);
+        }
+        
+        .porcino-info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .porcino-info-label {
+            font-weight: 600;
+        }
+        
+        /* Estilos para la pantalla de factura */
+        .factura-header {
+            background: linear-gradient(to right, var(--color-madera), var(--color-madera-claro));
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+        
+        .factura-content {
+            padding: 20px;
+            background-color: var(--color-blanco);
+            margin: 15px;
+            border-radius: 15px;
+            border: 2px solid var(--color-madera);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        @media (max-width: 400px) {
+            .dashboard-cards {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
+    <!-- Login Screen -->
+    <div class="container" id="login-screen">
         <div class="header">
-            <h1>🐷 Registro de Criadero de Cerdos 🐖</h1>
+            <h1>🐷 Mi Rancho Porcino Digital</h1>
+            <div class="subtitle">La mejor herramienta para gestionar tu granja</div>
         </div>
         
-        <div class="section">
-            <div class="section-title">Información General del Criadero</div>
-            <div class="grid">
+        <div class="login-container">
+            <div class="login-tabs">
+                <div class="login-tab active" onclick="showLoginTab('login')">Ingresar</div>
+                <div class="login-tab" onclick="showLoginTab('register')">Registrarse</div>
+            </div>
+            
+            <div id="login-form">
                 <div class="form-group">
-                    <label for="nombre-criadero">Nombre del Criadero</label>
-                    <input type="text" id="nombre-criadero" placeholder="Ej: Granja Los Laureles">
+                    <label for="login-user">Usuario</label>
+                    <input type="text" id="login-user" placeholder="Ingresa tu usuario">
                 </div>
                 <div class="form-group">
-                    <label for="propietario">Propietario</label>
-                    <input type="text" id="propietario" placeholder="Nombre completo">
+                    <label for="login-pass">Contraseña</label>
+                    <input type="password" id="login-pass" placeholder="Ingresa tu contraseña">
+                </div>
+                <button class="btn btn-primary" onclick="loginUser()">
+                    <span class="icon">🔑</span> Ingresar al Rancho
+                </button>
+            </div>
+            
+            <div id="register-form" class="hidden">
+                <div class="form-group">
+                    <label for="reg-name">Nombre completo</label>
+                    <input type="text" id="reg-name" placeholder="Ej: Juan Pérez">
                 </div>
                 <div class="form-group">
-                    <label for="ubicacion">Ubicación</label>
-                    <input type="text" id="ubicacion" placeholder="Dirección o coordenadas">
+                    <label for="reg-farm">Nombre del rancho</label>
+                    <input type="text" id="reg-farm" placeholder="Ej: Rancho Los Laureles">
                 </div>
                 <div class="form-group">
-                    <label for="telefono">Teléfono</label>
-                    <input type="tel" id="telefono" placeholder="Número de contacto">
+                    <label for="reg-user">Usuario</label>
+                    <input type="text" id="reg-user" placeholder="Crea un nombre de usuario">
+                </div>
+                <div class="form-group">
+                    <label for="reg-pass">Contraseña</label>
+                    <input type="password" id="reg-pass" placeholder="Crea una contraseña segura">
+                </div>
+                <button class="btn btn-secondary" onclick="registerUser()">
+                    <span class="icon">📝</span> Registrar Rancho
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Main App -->
+    <div class="container" id="main-app">
+        <div class="header">
+            <button class="back-btn" id="back-btn" style="display: none;" onclick="goBack()">←</button>
+            <h1 id="farm-name">Rancho Los Laureles</h1>
+            <div class="subtitle" id="current-section">Resumen del Rancho</div>
+        </div>
+        
+        <!-- Dashboard Screen -->
+        <div id="dashboard-screen">
+            <div class="dashboard-cards">
+                <div class="dashboard-card" onclick="showSection('total-porcinos')">
+                    <div class="card-icon">🐷</div>
+                    <div class="card-title">Total de Cerdos</div>
+                    <div class="card-value" id="total-porcinos">0</div>
+                </div>
+                <div class="dashboard-card" onclick="showSection('registrar')">
+                    <div class="card-icon">➕</div>
+                    <div class="card-title">Nuevo Registro</div>
+                    <div class="card-value">&nbsp;</div>
+                </div>
+                <div class="dashboard-card" onclick="showSection('reproduccion')">
+                    <div class="card-icon">❤️</div>
+                    <div class="card-title">Reproducción</div>
+                    <div class="card-value" id="total-reproduccion">0</div>
+                </div>
+                <div class="dashboard-card" onclick="showSection('vacunas')">
+                    <div class="card-icon">💉</div>
+                    <div class="card-title">Vacunas</div>
+                    <div class="card-value" id="total-vacunas">0</div>
+                </div>
+                <div class="dashboard-card" onclick="showSection('alimentacion')">
+                    <div class="card-icon">🍎</div>
+                    <div class="card-title">Alimentación</div>
+                    <div class="card-value" id="total-alimentacion">0</div>
+                </div>
+                <div class="dashboard-card" onclick="showSection('pesos')">
+                    <div class="card-icon">⚖️</div>
+                    <div class="card-title">Control de Pesos</div>
+                    <div class="card-value" id="total-pesos">0</div>
+                </div>
+            </div>
+            
+            <div class="stats-container">
+                <div class="stats-title">
+                    <span class="icon">📊</span> Estadísticas del Rancho
+                </div>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-title">Hembras</div>
+                        <div class="stat-value" id="total-hembras">0</div>
+                        <div class="stat-icon">♀️</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Machos</div>
+                        <div class="stat-value" id="total-machos">0</div>
+                        <div class="stat-icon">♂️</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Preñadas</div>
+                        <div class="stat-value" id="total-prenadas">0</div>
+                        <div class="stat-icon">🤰</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-title">Crías</div>
+                        <div class="stat-value" id="total-crias">0</div>
+                        <div class="stat-icon">🐖</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="section-title" onclick="showSection('eventos-proximos')">
+                <span class="icon">📅</span> Eventos Próximos
+            </div>
+            
+            <div class="animal-list">
+                <div class="animal-item">
+                    <div>
+                        <div class="animal-name">Vacuna para Lola</div>
+                        <div class="animal-details">
+                            <span class="animal-detail"><span class="detail-icon">💉</span> Erisipela</span>
+                            <span class="animal-detail"><span class="detail-icon">📅</span> 15/08/2023</span>
+                        </div>
+                    </div>
+                    <div class="animal-status status-pregnant">Preñada</div>
+                </div>
+                
+                <div class="animal-item">
+                    <div>
+                        <div class="animal-name">Parto de Marquesa</div>
+                        <div class="animal-details">
+                            <span class="animal-detail"><span class="detail-icon">🐖</span> 8 crías esperadas</span>
+                            <span class="detail-icon">📅</span> 25/08/2023</span>
+                        </div>
+                    </div>
+                    <div class="animal-status status-lactating">Lactando</div>
                 </div>
             </div>
         </div>
         
-        <div class="section">
-            <div class="section-title">Registro de Cerda</div>
-            <div class="grid">
-                <div class="form-group">
-                    <label for="numero-arete">Número de arete/identificación</label>
-                    <input type="text" id="numero-arete" placeholder="Ej: CER-001">
+        <!-- Total Porcinos Screen -->
+        <div id="total-porcinos-screen" class="hidden">
+            <div class="gender-tabs">
+                <div class="gender-tab active" onclick="showGenderTab('hembras')">Hembras</div>
+                <div class="gender-tab" onclick="showGenderTab('machos')">Machos</div>
+            </div>
+            
+            <div id="hembras-section">
+                <div class="animal-list">
+                    <div class="animal-category" onclick="showCategoryDetail('madres')">
+                        <div class="category-header">
+                            <span>Madres</span>
+                            <span class="total" id="total-madres">0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="animal-category" onclick="showCategoryDetail('prenadas')">
+                        <div class="category-header">
+                            <span>Preñadas</span>
+                            <span class="total" id="total-prenadas-list">0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="animal-category" onclick="showCategoryDetail('crias-hembras')">
+                        <div class="category-header">
+                            <span>Crías Hembras</span>
+                            <span class="total" id="total-crias-hembras">0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="animal-category" onclick="showCategoryDetail('lactando')">
+                        <div class="category-header">
+                            <span>Lactando</span>
+                            <span class="total" id="total-lactando">0</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="fecha-nacimiento">Fecha de nacimiento</label>
-                    <input type="date" id="fecha-nacimiento">
+            </div>
+            
+            <div id="machos-section" class="hidden">
+                <div class="animal-list">
+                    <div class="animal-category" onclick="showCategoryDetail('reproductores')">
+                        <div class="category-header">
+                            <span>Reproductores</span>
+                            <span class="total" id="total-reproductores">0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="animal-category" onclick="showCategoryDetail('capados')">
+                        <div class="category-header">
+                            <span>Capados</span>
+                            <span class="total" id="total-capados">0</span>
+                        </div>
+                    </div>
+                    
+                    <div class="animal-category" onclick="showCategoryDetail('crias-machos')">
+                        <div class="category-header">
+                            <span>Crías Machos</span>
+                            <span class="total" id="total-crias-machos">0</span>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
+        
+        <!-- Category Detail Screen -->
+        <div id="category-detail-screen" class="hidden">
+            <div class="animal-list" id="category-detail-list">
+                <!-- Los elementos se generan dinámicamente -->
+            </div>
+        </div>
+        
+        <!-- Pig Detail Screen -->
+        <div id="pig-detail-screen" class="hidden detail-screen">
+            <div class="detail-header">
+                <h2 id="pig-name">Lola</h2>
+                <div class="pig-status" id="pig-status">Preñada</div>
+            </div>
+            
+            <div class="detail-content">
+                <div class="detail-section">
+                    <h3><span class="icon">📝</span> Información Básica</h3>
+                    <div class="detail-row">
+                        <span class="detail-label">Identificación:</span>
+                        <span class="detail-value" id="pig-id">CER-001</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Género:</span>
+                        <span class="detail-value" id="pig-gender">Hembra</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Raza:</span>
+                        <span class="detail-value" id="pig-breed">Landrace</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Fecha Nacimiento:</span>
+                        <span class="detail-value" id="pig-birth">15/05/2021 (2 años)</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Peso Actual:</span>
+                        <span class="detail-value" id="pig-weight">140 kg</span>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3><span class="icon">❤️</span> Reproducción</h3>
+                    <div class="detail-row">
+                        <span class="detail-label">Estado:</span>
+                        <span class="detail-value" id="pig-repro-status">Preñada</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Última Monta:</span>
+                        <span class="detail-value" id="pig-last-mating">15/06/2023</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Partos:</span>
+                        <span class="detail-value" id="pig-births">3</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Crías Promedio:</span>
+                        <span class="detail-value" id="pig-avg-offspring">8</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Próximo Parto:</span>
+                        <span class="detail-value" id="pig-next-birth">15/09/2023</span>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3><span class="icon">💉</span> Salud</h3>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-date">10/06/2023</div>
+                            <div class="timeline-content">
+                                <strong>Vacuna:</strong> Parvovirus<br>
+                                <strong>Próxima:</strong> 10/09/2023
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">15/05/2023</div>
+                            <div class="timeline-content">
+                                <strong>Vacuna:</strong> Erisipela<br>
+                                <strong>Próxima:</strong> 15/08/2023
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-date">20/03/2023</div>
+                            <div class="timeline-content">
+                                <strong>Desparasitación</strong><br>
+                                Producto: Ivermectina
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn" style="background-color: var(--color-verde-pasto); color: white;">
+                        <span class="icon">💉</span> Vacunar
+                    </button>
+                    <button class="action-btn" style="background-color: var(--color-azul-cielo); color: white;">
+                        <span class="icon">⚖️</span> Pesar
+                    </button>
+                    <button class="action-btn" style="background-color: var(--color-madera); color: white;">
+                        <span class="icon">✏️</span> Editar
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Registrar Screen -->
+        <div id="registrar-screen" class="hidden">
+            <div class="section-title">
+                <span class="icon">🐷</span> Registrar Nuevo Porcino
+            </div>
+            
+            <div style="padding: 15px;">
                 <div class="form-group">
-                    <label for="raza">Raza</label>
-                    <select id="raza">
-                        <option value="">Seleccionar</option>
+                    <label for="cerda-numero">Nombre/Identificación</label>
+                    <input type="text" id="cerda-numero" placeholder="Ej: Lola, Marquesa o CER-001">
+                </div>
+                
+                <div class="form-group">
+                    <label for="cerda-genero">Género</label>
+                    <select id="cerda-genero" onchange="updateGenderFields()">
+                        <option value="hembra">Hembra</option>
+                        <option value="macho">Macho</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cerda-fecha">Fecha de nacimiento</label>
+                    <input type="date" id="cerda-fecha">
+                </div>
+                
+                <div class="form-group">
+                    <label for="cerda-raza">Raza</label>
+                    <select id="cerda-raza">
+                        <option value="criolla">Criolla</option>
                         <option value="landrace">Landrace</option>
                         <option value="large-white">Large White</option>
                         <option value="duroc">Duroc</option>
                         <option value="pietrain">Pietrain</option>
-                        <option value="hibrida">Híbrida</option>
-                        <option value="criolla">Criolla</option>
                         <option value="otra">Otra</option>
                     </select>
                 </div>
+                
                 <div class="form-group">
-                    <label for="peso">Peso actual (kg)</label>
-                    <input type="number" id="peso" placeholder="Ej: 120">
+                    <label for="cerda-peso">Peso (kg)</label>
+                    <input type="number" id="cerda-peso" placeholder="Peso aproximado">
                 </div>
+                
                 <div class="form-group">
-                    <label for="estado-reproductivo">Estado reproductivo</label>
-                    <select id="estado-reproductivo">
-                        <option value="">Seleccionar</option>
-                        <option value="vacia">Vacía</option>
-                        <option value="gestante">Gestante</option>
-                        <option value="lactante">Lactante</option>
-                        <option value="destetada">Destetada</option>
+                    <label for="cerda-padre">Padre (opcional)</label>
+                    <input type="text" id="cerda-padre" placeholder="Identificación del padre">
+                </div>
+                
+                <div class="form-group">
+                    <label for="cerda-madre">Madre (opcional)</label>
+                    <input type="text" id="cerda-madre" placeholder="Identificación de la madre">
+                </div>
+                
+                <div id="hembra-fields">
+                    <div class="form-group">
+                        <label for="cerda-estado">Estado reproductivo</label>
+                        <select id="cerda-estado">
+                            <option value="vacia">Vacía</option>
+                            <option value="prenada">Preñada</option>
+                            <option value="lactando">Lactando</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group" id="fecha-monta-group">
+                        <label for="cerda-monta">Fecha última monta</label>
+                        <input type="date" id="cerda-monta">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cerda-partos">Número de partos</label>
+                        <input type="number" id="cerda-partos" placeholder="0" min="0">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cerda-crias">Crías promedio por parto</label>
+                        <input type="number" id="cerda-crias" placeholder="8" min="0">
+                    </div>
+                </div>
+                
+                <div id="macho-fields" class="hidden">
+                    <div class="form-group">
+                        <label for="cerda-castrado">Estado</label>
+                        <select id="cerda-castrado">
+                            <option value="reproductor">Reproductor</option>
+                            <option value="capado">Capado</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="cerda-fertilidad">Índice de fertilidad</label>
+                        <select id="cerda-fertilidad">
+                            <option value="alta">Alta</option>
+                            <option value="media">Media</option>
+                            <option value="baja">Baja</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cerda-notas">Notas/Observaciones</label>
+                    <textarea id="cerda-notas" rows="3" style="width: 100%; padding: 12px; border: 2px solid var(--color-madera); border-radius: 10px;"></textarea>
+                </div>
+                
+                <button class="btn btn-primary" onclick="guardarPorcino()">
+                    <span class="icon">💾</span> Guardar Registro
+                </button>
+            </div>
+        </div>
+        
+        <!-- Ventas Screen -->
+        <div id="ventas-screen" class="hidden">
+            <div class="section-title">
+                <span class="icon">💰</span> Ventas y Facturación
+            </div>
+            
+            <div style="padding: 15px;">
+                <div class="form-group">
+                    <label for="venta-cliente">Cliente</label>
+                    <input type="text" id="venta-cliente" placeholder="Nombre del cliente">
+                </div>
+                
+                <div class="form-group">
+                    <label for="venta-identificacion">Identificación/RUC</label>
+                    <input type="text" id="venta-identificacion" placeholder="Documento del cliente">
+                </div>
+                
+                <div class="form-group">
+                    <label for="venta-direccion">Dirección</label>
+                    <input type="text" id="venta-direccion" placeholder="Dirección del cliente">
+                </div>
+                
+                <div class="form-group">
+                    <label for="venta-telefono">Teléfono</label>
+                    <input type="tel" id="venta-telefono" placeholder="Teléfono del cliente">
+                </div>
+                
+                <div class="form-group">
+                    <label for="venta-porcino">Porcino a vender</label>
+                    <select id="venta-porcino" onchange="actualizarDatosPorcino()">
+                        <option value="">Seleccione un porcino</option>
+                        <!-- Opciones se generan dinámicamente -->
                     </select>
                 </div>
-                <div class="form-group">
-                    <label for="fecha-cubricion">Fecha última cubrición</label>
-                    <input type="date" id="fecha-cubricion">
+                
+                <div id="porcino-info" style="display: none; background-color: var(--color-paja); padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px solid var(--color-madera);">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span style="font-weight: 600;">Identificación:</span>
+                        <span id="porcino-venta-id">-</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span style="font-weight: 600;">Raza:</span>
+                        <span id="porcino-venta-raza">-</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                        <span style="font-weight: 600;">Peso:</span>
+                        <span id="porcino-venta-peso">-</span>
+                    </div>
+                    <div style="display: flex; justify-content: space-between;">
+                        <span style="font-weight: 600;">Edad:</span>
+                        <span id="porcino-venta-edad">-</span>
+                    </div>
                 </div>
+                
                 <div class="form-group">
-                    <label for="fecha-parto">Fecha probable parto</label>
-                    <input type="date" id="fecha-parto">
+                    <label for="venta-precio">Precio ($)</label>
+                    <input type="number" id="venta-precio" placeholder="Precio de venta">
                 </div>
+                
                 <div class="form-group">
-                    <label for="fecha-destete">Fecha destete</label>
-                    <input type="date" id="fecha-destete">
-                </div>
-            </div>
-            <div class="form-group">
-                <label for="observaciones">Observaciones</label>
-                <textarea id="observaciones" rows="3" placeholder="Notas importantes sobre la cerda"></textarea>
-            </div>
-            <div class="form-group">
-                <label>Fotografía (opcional)</label>
-                <div class="foto-placeholder">+ Agregar foto</div>
-                <input type="file" id="foto-cerda" accept="image/*">
-            </div>
-            <button type="button">Guardar registro de cerda</button>
-        </div>
-        
-        <div class="section">
-            <div class="section-title">Registro de Camada</div>
-            <div class="grid">
-                <div class="form-group">
-                    <label for="numero-camada">Número de camada</label>
-                    <input type="text" id="numero-camada" placeholder="Ej: CAM-001">
-                </div>
-                <div class="form-group">
-                    <label for="fecha-nacimiento-camada">Fecha de nacimiento</label>
-                    <input type="date" id="fecha-nacimiento-camada">
-                </div>
-                <div class="form-group">
-                    <label for="cantidad-lechones">Cantidad de lechones</label>
-                    <input type="number" id="cantidad-lechones" placeholder="Total nacidos">
-                </div>
-                <div class="form-group">
-                    <label for="lechones-vivos">Lechones vivos</label>
-                    <input type="number" id="lechones-vivos" placeholder="Cantidad actual">
-                </div>
-                <div class="form-group">
-                    <label for="peso-promedio">Peso promedio al nacer (kg)</label>
-                    <input type="number" step="0.1" id="peso-promedio" placeholder="Ej: 1.4">
-                </div>
-            </div>
-            <button type="button">Guardar registro de camada</button>
-        </div>
-        
-        <div class="section">
-            <div class="section-title">Registro de Vacunas y Tratamientos</div>
-            <div class="grid">
-                <div class="form-group">
-                    <label for="fecha-vacuna">Fecha</label>
-                    <input type="date" id="fecha-vacuna">
-                </div>
-                <div class="form-group">
-                    <label for="tipo-vacuna">Vacuna/Tratamiento</label>
-                    <select id="tipo-vacuna">
-                        <option value="">Seleccionar</option>
-                        <option value="peste-porcina">Peste porcina</option>
-                        <option value="erisipela">Erisipela</option>
-                        <option value="parvovirus">Parvovirus</option>
-                        <option value="desparasitacion">Desparasitación</option>
-                        <option value="antibiotico">Antibiótico</option>
-                        <option value="otro">Otro</option>
+                    <label for="venta-metodo">Método de pago</label>
+                    <select id="venta-metodo">
+                        <option value="efectivo">Efectivo</option>
+                        <option value="transferencia">Transferencia</option>
+                        <option value="tarjeta">Tarjeta</option>
+                        <option value="cheque">Cheque</option>
                     </select>
                 </div>
+                
                 <div class="form-group">
-                    <label for="nombre-producto">Nombre del producto</label>
-                    <input type="text" id="nombre-producto" placeholder="Ej: Circovac">
+                    <label for="venta-notas">Notas adicionales</label>
+                    <textarea id="venta-notas" rows="2" style="width: 100%; padding: 12px; border: 2px solid var(--color-madera); border-radius: 10px;"></textarea>
                 </div>
-                <div class="form-group">
-                    <label for="dosis">Dosis</label>
-                    <input type="text" id="dosis" placeholder="Ej: 2 ml">
-                </div>
-            </div>
-            <button type="button">Guardar registro de vacuna</button>
-        </div>
-        
-        <div class="alertas">
-            <h3>📢 Alertas y Recordatorios</h3>
-            <p>- Cerda CER-001: Próxima vacuna contra peste porcina en 5 días</p>
-            <p>- Cerda CER-005: Fecha probable de parto el 15/10/2023</p>
-            <p>- Camada CAM-012: Próximo destete en 3 días</p>
-        </div>
-        
-        <div class="section">
-            <div class="section-title">Resumen del Criadero</div>
-            <div class="grid">
-                <div class="animal-card">
-                    <h3>Total Cerdas</h3>
-                    <p style="font-size: 24px; text-align: center;">45</p>
-                </div>
-                <div class="animal-card">
-                    <h3>En gestación</h3>
-                    <p style="font-size: 24px; text-align: center;">12</p>
-                </div>
-                <div class="animal-card">
-                    <h3>En lactancia</h3>
-                    <p style="font-size: 24px; text-align: center;">8</p>
-                </div>
-                <div class="animal-card">
-                    <h3>Lechones</h3>
-                    <p style="font-size: 24px; text-align: center;">96</p>
-                </div>
+                
+                <button class="btn btn-primary" onclick="generarFactura()">
+                    <span class="icon">🧾</span> Generar Factura
+                </button>
             </div>
         </div>
+        
+        <!-- Factura Screen -->
+        <div id="factura-screen" class="hidden detail-screen">
+            <div class="detail-header">
+                <h2>Factura de Venta</h2>
+                <div class="pig-status" id="factura-numero">FAC-001</div>
+            </div>
+            
+            <div class="detail-content">
+                <div class="detail-section">
+                    <h3><span class="icon">📝</span> Información de la Venta</h3>
+                    <div class="detail-row">
+                        <span class="detail-label">Fecha:</span>
+                        <span class="detail-value" id="factura-fecha">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Cliente:</span>
+                        <span class="detail-value" id="factura-cliente">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Identificación:</span>
+                        <span class="detail-value" id="factura-identificacion">-</span>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3><span class="icon">🐷</span> Detalle del Porcino</h3>
+                    <div class="detail-row">
+                        <span class="detail-label">Identificación:</span>
+                        <span class="detail-value" id="factura-porcino-id">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Raza:</span>
+                        <span class="detail-value" id="factura-porcino-raza">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Peso:</span>
+                        <span class="detail-value" id="factura-porcino-peso">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Precio:</span>
+                        <span class="detail-value" id="factura-precio">-</span>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3><span class="icon">💰</span> Información de Pago</h3>
+                    <div class="detail-row">
+                        <span class="detail-label">Método:</span>
+                        <span class="detail-value" id="factura-metodo">-</span>
+                    </div>
+                    <div class="detail-row">
+                        <span class="detail-label">Estado:</span>
+                        <span class="detail-value" style="color: var(--color-verde-oscuro); font-weight: 600;">PAGADO</span>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn" style="background-color: var(--color-madera); color: white;" onclick="imprimirFactura()">
+                        <span class="icon">🖨️</span> Imprimir
+                    </button>
+                    <button class="action-btn" style="background-color: var(--color-verde-pasto); color: white;" onclick="enviarFactura()">
+                        <span class="icon">✉️</span> Enviar
+                    </button>
+                    <button class="action-btn" style="background-color: var(--color-rojo-granja); color: white;" onclick="finalizarVenta()">
+                        <span class="icon">✅</span> Finalizar
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Granja Screen -->
+        <div id="granja-screen" class="hidden">
+            <div class="section-title">
+                <span class="icon">🏡</span> Información de la Granja
+            </div>
+            
+            <div style="padding: 15px;">
+                <div class="form-group">
+                    <label for="granja-nombre">Nombre de la Granja</label>
+                    <input type="text" id="granja-nombre" placeholder="Ej: Rancho Los Laureles">
+                </div>
+                
+                <div class="form-group">
+                    <label for="granja-propietario">Propietario</label>
+                    <input type="text" id="granja-propietario" placeholder="Nombre del propietario">
+                </div>
+                
+                <div class="form-group">
+                    <label for="granja-ruc">RUC/Identificación</label>
+                    <input type="text" id="granja-ruc" placeholder="Documento legal">
+                </div>
+                
+                <div class="form-group">
+                    <label for="granja-direccion">Dirección</label>
+                    <input type="text" id="granja-direccion" placeholder="Dirección de la granja">
+                </div>
+                
+                <div class="form-group">
+                    <label for="granja-telefono">Teléfono</label>
+                    <input type="tel" id="granja-telefono" placeholder="Teléfono de contacto">
+                </div>
+                
+                <div class="form-group">
+                    <label for="granja-email">Correo Electrónico</label>
+                    <input type="email" id="granja-email" placeholder="Email de contacto">
+                </div>
+                
+                <div class="form-group">
+                    <label for="granja-ubicacion">Ubicación (GPS)</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="granja-latitud" placeholder="Latitud" style="flex: 1;">
+                        <input type="text" id="granja-longitud" placeholder="Longitud" style="flex: 1;">
+                    </div>
+                    <button class="btn btn-secondary" style="margin-top: 10px;" onclick="obtenerUbicacion()">
+                        <span class="icon">📍</span> Obtener Ubicación Actual
+                    </button>
+                </div>
+                
+                <div class="form-group">
+                    <label for="granja-descripcion">Descripción</label>
+                    <textarea id="granja-descripcion" rows="3" style="width: 100%; padding: 12px; border: 2px solid var(--color-madera); border-radius: 10px;"></textarea>
+                </div>
+                
+                <button class="btn btn-primary" onclick="guardarInformacionGranja()">
+                    <span class="icon">💾</span> Guardar Información
+                </button>
+            </div>
+        </div>
+        
+        <!-- Bottom Navigation -->
+        <div class="bottom-nav">
+            <a href="#" class="nav-item active" onclick="showDashboard()">
+                <span class="nav-icon">🏠</span>
+                Inicio
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('total-porcinos')">
+                <span class="nav-icon">🐷</span>
+                Porcinos
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('ventas')">
+                <span class="nav-icon">💰</span>
+                Ventas
+            </a>
+            <a href="#" class="nav-item" onclick="showSection('granja')">
+                <span class="nav-icon">🏡</span>
+                Granja
+            </a>
+        </div>
+        
+        <button class="add-animal-btn" onclick="showSection('registrar')">+</button>
     </div>
+
+    <script>
+        // Datos de ejemplo más completos
+        let porcinos = [
+            { 
+                id: 1, 
+                identificacion: "CER-001",
+                nombre: "Lola", 
+                genero: "hembra", 
+                raza: "landrace", 
+                fechaNacimiento: "2021-05-15", 
+                peso: 140, 
+                estado: "prenada", 
+                fechaMonta: "2023-06-15", 
+                partos: 3,
+                criasPromedio: 8,
+                padre: "REY-001",
+                madre: "MAR-002",
+                castrado: false,
+                notas: "Excelente madre, buen temperamento",
+                vacunas: [
+                    { tipo: "erisipela", fecha: "2023-05-15", proxima: "2023-08-15" },
+                    { tipo: "parvovirus", fecha: "2023-03-10", proxima: "2023-06-10" }
+                ],
+                desparasitaciones: [
+                    { producto: "Ivermectina", fecha: "2023-03-20", dosis: "1.5 ml" }
+                ],
+                pesos: [
+                    { fecha: "2023-01-10", peso: 130 },
+                    { fecha: "2023-04-15", peso: 135 },
+                    { fecha: "2023-07-01", peso: 140 }
+                ]
+            },
+            { 
+                id: 2, 
+                identificacion: "CER-002",
+                nombre: "Marquesa", 
+                genero: "hembra", 
+                raza: "large-white", 
+                fechaNacimiento: "2020-03-20", 
+                peso: 160, 
+                estado: "lactando", 
+                fechaMonta: "2023-05-20", 
+                partos: 5,
+                criasPromedio: 9,
+                padre: "REY-001",
+                madre: "ROS-003",
+                castrado: false,
+                notas: "Productora consistente, necesita dieta especial",
+                vacunas: [
+                    { tipo: "parvovirus", fecha: "2023-06-10", proxima: "2023-09-10" }
+                ],
+                pesos: [
+                    { fecha: "2023-01-10", peso: 155 },
+                    { fecha: "2023-05-01", peso: 158 },
+                    { fecha: "2023-07-15", peso: 160 }
+                ]
+            },
+            { 
+                id: 3, 
+                identificacion: "REY-001",
+                nombre: "Rey", 
+                genero: "macho", 
+                raza: "duroc", 
+                fechaNacimiento: "2019-01-10", 
+                peso: 180, 
+                estado: "reproductor", 
+                fechaMonta: null, 
+                partos: null,
+                fertilidad: "alta",
+                castrado: false,
+                notas: "Semental principal, excelente genética",
+                vacunas: [
+                    { tipo: "peste-porcina", fecha: "2023-04-20", proxima: "2023-10-20" }
+                ],
+                pesos: [
+                    { fecha: "2023-01-10", peso: 175 },
+                    { fecha: "2023-05-01", peso: 178 },
+                    { fecha: "2023-07-01", peso: 180 }
+                ]
+            },
+            { 
+                id: 4, 
+                identificacion: "CER-004",
+                nombre: "Toro", 
+                genero: "macho", 
+                raza: "large-white", 
+                fechaNacimiento: "2022-08-05", 
+                peso: 120, 
+                estado: "capado", 
+                fechaMonta: null, 
+                partos: null,
+                castrado: true,
+                notas: "Destinado para engorde",
+                pesos: [
+                    { fecha: "2023-01-10", peso: 80 },
+                    { fecha: "2023-04-01", peso: 100 },
+                    { fecha: "2023-07-01", peso: 120 }
+                ]
+            },
+            { 
+                id: 5, 
+                identificacion: "CER-005",
+                nombre: "Blanca", 
+                genero: "hembra", 
+                raza: "large-white", 
+                fechaNacimiento: "2023-02-10", 
+                peso: 40, 
+                estado: "vacia", 
+                fechaMonta: null, 
+                partos: 0,
+                castrado: false,
+                notas: "Cría para reemplazo",
+                vacunas: [
+                    { tipo: "erisipela", fecha: "2023-06-01", proxima: "2023-09-01" }
+                ],
+                pesos: [
+                    { fecha: "2023-04-10", peso: 30 },
+                    { fecha: "2023-06-01", peso: 35 },
+                    { fecha: "2023-07-20", peso: 40 }
+                ]
+            },
+            { 
+                id: 6, 
+                identificacion: "CER-006",
+                nombre: "Negro", 
+                genero: "macho", 
+                raza: "duroc", 
+                fechaNacimiento: "2023-02-10", 
+                peso: 45, 
+                estado: "capado", 
+                fechaMonta: null, 
+                partos: null,
+                castrado: true,
+                notas: "Cría para engorde",
+                pesos: [
+                    { fecha: "2023-04-10", peso: 35 },
+                    { fecha: "2023-06-01", peso: 40 },
+                    { fecha: "2023-07-20", peso: 45 }
+                ]
+            }
+        ];
+        
+        let vacunas = [
+            { id: 1, porcinoId: 1, tipo: "erisipela", fecha: "2023-05-15", proxima: "2023-08-15" },
+            { id: 2, porcinoId: 2, tipo: "parvovirus", fecha: "2023-06-10", proxima: "2023-09-10" },
+            { id: 3, porcinoId: 3, tipo: "peste-porcina", fecha: "2023-04-20", proxima: "2023-10-20" },
+            { id: 4, porcinoId: 5, tipo: "erisipela", fecha: "2023-06-01", proxima: "2023-09-01" }
+        ];
+        
+        let eventos = [
+            { tipo: "vacuna", porcinoId: 1, descripcion: "Vacuna de Erisipela para Lola", fecha: "2023-08-15" },
+            { tipo: "parto", porcinoId: 2, descripcion: "Parto esperado de Marquesa", fecha: "2023-08-25", detalles: "8 crías esperadas" },
+            { tipo: "vacuna", porcinoId: 5, descripcion: "Vacuna de Erisipela para Blanca", fecha: "2023-09-01" },
+            { tipo: "vacuna", porcinoId: 3, descripcion: "Vacuna de Peste Porcina para Rey", fecha: "2023-10-20" }
+        ];
+        
+        let facturas = [];
+        
+        let granjaInfo = {
+            nombre: "Rancho Los Laureles",
+            propietario: "Juan Pérez",
+            ruc: "1234567890123",
+            direccion: "Km 12.5 Carretera a la Costa",
+            telefono: "+593 987654321",
+            email: "contacto@rancholoslaureles.com",
+            latitud: "-0.180653",
+            longitud: "-78.467838",
+            descripcion: "Granja porcina familiar con más de 20 años de experiencia en la cría de cerdos de raza pura."
+        };
+        
+        // Variables de estado
+        let currentScreen = "dashboard";
+        let currentGenderTab = "hembras";
+        let currentCategory = "";
+        let currentPigId = null;
+        
+        // Funciones de navegación
+        function showLoginTab(tab) {
+            document.querySelectorAll('.login-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.login-tab[onclick="showLoginTab('${tab}')"]`).classList.add('active');
+            
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('register-form').classList.add('hidden');
+            document.getElementById(`${tab}-form`).classList.remove('hidden');
+        }
+        
+        function loginUser() {
+            const user = document.getElementById('login-user').value;
+            const pass = document.getElementById('login-pass').value;
+            
+            if (!user || !pass) {
+                alert('Por favor ingrese usuario y contraseña');
+                return;
+            }
+            
+            // Simular login exitoso
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('main-app').style.display = 'block';
+            
+            // Actualizar datos
+            updateDashboard();
+        }
+        
+        function registerUser() {
+            const name = document.getElementById('reg-name').value;
+            const farm = document.getElementById('reg-farm').value;
+            const user = document.getElementById('reg-user').value;
+            const pass = document.getElementById('reg-pass').value;
+            
+            if (!name || !farm || !user || !pass) {
+                alert('Por favor complete todos los campos obligatorios');
+                return;
+            }
+            
+            alert('Registro exitoso. Ahora puede ingresar con sus datos.');
+            showLoginTab('login');
+            
+            // Limpiar formulario
+            document.getElementById('reg-name').value = '';
+            document.getElementById('reg-farm').value = '';
+            document.getElementById('reg-user').value = '';
+            document.getElementById('reg-pass').value = '';
+        }
+        
+        function showSection(section) {
+            // Ocultar todas las pantallas
+            document.getElementById('dashboard-screen').classList.add('hidden');
+            document.getElementById('total-porcinos-screen').classList.add('hidden');
+            document.getElementById('category-detail-screen').classList.add('hidden');
+            document.getElementById('registrar-screen').classList.add('hidden');
+            document.getElementById('pig-detail-screen').classList.add('hidden');
+            document.getElementById('ventas-screen').classList.add('hidden');
+            document.getElementById('factura-screen').classList.add('hidden');
+            document.getElementById('granja-screen').classList.add('hidden');
+            
+            // Mostrar la pantalla solicitada
+            if (section === 'dashboard') {
+                document.getElementById('dashboard-screen').classList.remove('hidden');
+                document.getElementById('back-btn').style.display = 'none';
+                document.getElementById('current-section').textContent = 'Resumen del Rancho';
+                currentScreen = "dashboard";
+            } 
+            else if (section === 'total-porcinos') {
+                document.getElementById('total-porcinos-screen').classList.remove('hidden');
+                document.getElementById('back-btn').style.display = 'block';
+                document.getElementById('current-section').textContent = 'Mis Porcinos';
+                currentScreen = "total-porcinos";
+                showGenderTab(currentGenderTab);
+            }
+            else if (section === 'registrar') {
+                document.getElementById('registrar-screen').classList.remove('hidden');
+                document.getElementById('back-btn').style.display = 'block';
+                document.getElementById('current-section').textContent = 'Registrar Porcino';
+                currentScreen = "registrar";
+            }
+            else if (section === 'pig-detail') {
+                document.getElementById('pig-detail-screen').classList.remove('hidden');
+                document.getElementById('back-btn').style.display = 'block';
+                currentScreen = "pig-detail";
+                if (currentPigId) {
+                    loadPigDetails(currentPigId);
+                }
+            }
+            else if (section === 'ventas') {
+                document.getElementById('ventas-screen').classList.remove('hidden');
+                document.getElementById('back-btn').style.display = 'block';
+                document.getElementById('current-section').textContent = 'Ventas de Porcinos';
+                currentScreen = "ventas";
+                
+                // Actualizar lista de porcinos disponibles para venta
+                const select = document.getElementById('venta-porcino');
+                select.innerHTML = '<option value="">Seleccione un porcino</option>';
+                
+                porcinos.forEach(porcino => {
+                    const option = document.createElement('option');
+                    option.value = porcino.id;
+                    option.textContent = `${porcino.identificacion} - ${porcino.nombre || 'Sin nombre'} (${porcino.raza})`;
+                    select.appendChild(option);
+                });
+            }
+            else if (section === 'factura') {
+                document.getElementById('factura-screen').classList.remove('hidden');
+                document.getElementById('back-btn').style.display = 'block';
+                document.getElementById('current-section').textContent = 'Factura de Venta';
+                currentScreen = "factura";
+            }
+            else if (section === 'granja') {
+                document.getElementById('granja-screen').classList.remove('hidden');
+                document.getElementById('back-btn').style.display = 'block';
+                document.getElementById('current-section').textContent = 'Información de la Granja';
+                currentScreen = "granja";
+                
+                // Cargar información existente
+                document.getElementById('granja-nombre').value = granjaInfo.nombre;
+                document.getElementById('granja-propietario').value = granjaInfo.propietario;
+                document.getElementById('granja-ruc').value = granjaInfo.ruc;
+                document.getElementById('granja-direccion').value = granjaInfo.direccion;
+                document.getElementById('granja-telefono').value = granjaInfo.telefono;
+                document.getElementById('granja-email').value = granjaInfo.email;
+                document.getElementById('granja-latitud').value = granjaInfo.latitud;
+                document.getElementById('granja-longitud').value = granjaInfo.longitud;
+                document.getElementById('granja-descripcion').value = granjaInfo.descripcion;
+            }
+            
+            // Actualizar el menú inferior
+            updateNavSelection(section);
+        }
+        
+        function showDashboard() {
+            showSection('dashboard');
+        }
+        
+        function goBack() {
+            if (currentScreen === "pig-detail") {
+                if (currentCategory) {
+                    showSection('category-detail');
+                    document.getElementById('current-section').textContent = currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1).replace('-', ' ');
+                } else {
+                    showSection('total-porcinos');
+                }
+                currentScreen = currentCategory ? "category-detail" : "total-porcinos";
+            }
+            else if (currentScreen === "category-detail") {
+                showSection('total-porcinos');
+                currentScreen = "total-porcinos";
+            }
+            else if (currentScreen === "factura") {
+                showSection('ventas');
+                currentScreen = "ventas";
+            }
+            else if (currentScreen === "total-porcinos" || currentScreen === "registrar" || currentScreen === "ventas" || currentScreen === "granja") {
+                showSection('dashboard');
+                currentScreen = "dashboard";
+            }
+        }
+        
+        function showGenderTab(gender) {
+            currentGenderTab = gender;
+            document.getElementById('hembras-section').classList.add('hidden');
+            document.getElementById('machos-section').classList.add('hidden');
+            document.getElementById(`${gender}-section`).classList.remove('hidden');
+            
+            document.querySelectorAll('.gender-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.gender-tab[onclick="showGenderTab('${gender}')"]`).classList.add('active');
+        }
+        
+        function showCategoryDetail(category) {
+            currentCategory = category;
+            document.getElementById('total-porcinos-screen').classList.add('hidden');
+            document.getElementById('category-detail-screen').classList.remove('hidden');
+            document.getElementById('back-btn').style.display = 'block';
+            document.getElementById('current-section').textContent = category.charAt(0).toUpperCase() + category.slice(1).replace('-', ' ');
+            currentScreen = "category-detail";
+            
+            // Generar la lista de animales según la categoría
+            const listContainer = document.getElementById('category-detail-list');
+            listContainer.innerHTML = '';
+            
+            let filteredAnimals = [];
+            let categoryTitle = "";
+            
+            switch(category) {
+                case 'madres':
+                    filteredAnimals = porcinos.filter(p => p.genero === 'hembra' && p.partos > 0);
+                    categoryTitle = "Madres (hembras que han parido)";
+                    break;
+                case 'prenadas':
+                    filteredAnimals = porcinos.filter(p => p.genero === 'hembra' && p.estado === 'prenada');
+                    categoryTitle = "Hembras Preñadas";
+                    break;
+                case 'lactando':
+                    filteredAnimals = porcinos.filter(p => p.genero === 'hembra' && p.estado === 'lactando');
+                    categoryTitle = "Hembras Lactando";
+                    break;
+                case 'crias-hembras':
+                    filteredAnimals = porcinos.filter(p => p.genero === 'hembra' && esCria(p.fechaNacimiento));
+                    categoryTitle = "Crías Hembras";
+                    break;
+                case 'reproductores':
+                    filteredAnimals = porcinos.filter(p => p.genero === 'macho' && p.estado === 'reproductor');
+                    categoryTitle = "Machos Reproductores";
+                    break;
+                case 'capados':
+                    filteredAnimals = porcinos.filter(p => p.genero === 'macho' && p.estado === 'capado');
+                    categoryTitle = "Machos Capados";
+                    break;
+                case 'crias-machos':
+                    filteredAnimals = porcinos.filter(p => p.genero === 'macho' && esCria(p.fechaNacimiento));
+                    categoryTitle = "Crías Machos";
+                    break;
+            }
+            
+            // Agregar título de categoría
+            const titleElement = document.createElement('div');
+            titleElement.style.padding = '15px 15px 10px';
+            titleElement.style.fontWeight = '700';
+            titleElement.style.color = 'var(--color-madera)';
+            titleElement.style.fontSize = '16px';
+            titleElement.textContent = categoryTitle + ` (${filteredAnimals.length})`;
+            listContainer.appendChild(titleElement);
+            
+            if (filteredAnimals.length === 0) {
+                const emptyElement = document.createElement('div');
+                emptyElement.style.padding = '20px';
+                emptyElement.style.textAlign = 'center';
+                emptyElement.style.color = '#795548';
+                emptyElement.textContent = 'No hay porcinos en esta categoría';
+                listContainer.appendChild(emptyElement);
+                return;
+            }
+            
+            // Agregar animales
+            filteredAnimals.forEach(animal => {
+                const animalElement = document.createElement('div');
+                animalElement.className = 'animal-item';
+                animalElement.onclick = function() { showPigDetail(animal.id); };
+                
+                let details = [];
+                if (animal.raza) details.push(`Raza: ${animal.raza}`);
+                if (animal.peso) details.push(`Peso: ${animal.peso} kg`);
+                
+                let edad = calcularEdad(animal.fechaNacimiento);
+                if (edad) details.push(`Edad: ${edad}`);
+                
+                let status = "";
+                let statusClass = "";
+                
+                if (animal.genero === 'hembra') {
+                    if (animal.estado === 'prenada') {
+                        status = "Preñada";
+                        statusClass = "status-pregnant";
+                        
+                        if (animal.fechaMonta) {
+                            const fechaMonta = new Date(animal.fechaMonta);
+                            fechaMonta.setDate(fechaMonta.getDate() + 114); // 3 meses, 3 semanas, 3 días
+                            const fechaParto = fechaMonta.toISOString().split('T')[0];
+                            details.push(`Parto: ${formatFecha(fechaParto)}`);
+                        }
+                    } else if (animal.estado === 'lactando') {
+                        status = "Lactando";
+                        statusClass = "status-lactating";
+                    } else {
+                        status = "Vacía";
+                        statusClass = "status-empty";
+                    }
+                    
+                    if (animal.partos > 0) {
+                        details.push(`Partos: ${animal.partos}`);
+                    }
+                } else {
+                    if (animal.estado === 'reproductor') {
+                        status = "Reproductor";
+                        statusClass = "status-breeding";
+                    } else {
+                        status = "Capado";
+                        statusClass = "status-castrated";
+                    }
+                }
+                
+                // Verificar si tiene vacunas próximas
+                const vacunasProximas = vacunas.filter(v => v.porcinoId === animal.id && 
+                    new Date(v.proxima) >= new Date()).length;
+                
+                if (vacunasProximas > 0) {
+                    details.push(`💉 ${vacunasProximas} vacuna${vacunasProximas > 1 ? 's' : ''} pendiente${vacunasProximas > 1 ? 's' : ''}`);
+                }
+                
+                animalElement.innerHTML = `
+                    <div>
+                        <div class="animal-name">${animal.nombre || animal.identificacion}</div>
+                        <div class="animal-details">${details.join(' | ')}</div>
+                    </div>
+                    <div class="animal-status ${statusClass}">${status}</div>
+                `;
+                
+                listContainer.appendChild(animalElement);
+            });
+        }
+        
+        function showPigDetail(pigId) {
+            currentPigId = pigId;
+            showSection('pig-detail');
+        }
+        
+        function loadPigDetails(pigId) {
+            const pig = porcinos.find(p => p.id === pigId);
+            if (!pig) return;
+            
+            document.getElementById('pig-name').textContent = pig.nombre || pig.identificacion;
+            document.getElementById('pig-id').textContent = pig.identificacion || 'N/A';
+            document.getElementById('pig-gender').textContent = pig.genero === 'hembra' ? 'Hembra' : 'Macho';
+            document.getElementById('pig-breed').textContent = pig.raza || 'N/A';
+            
+            const edad = calcularEdad(pig.fechaNacimiento);
+            document.getElementById('pig-birth').textContent = pig.fechaNacimiento ? 
+                `${formatFecha(pig.fechaNacimiento)} (${edad})` : 'Desconocida';
+            
+            document.getElementById('pig-weight').textContent = pig.peso ? `${pig.peso} kg` : 'No registrado';
+            
+            // Estado reproductivo
+            let status = "";
+            if (pig.genero === 'hembra') {
+                if (pig.estado === 'prenada') {
+                    status = "Preñada";
+                    if (pig.fechaMonta) {
+                        const fechaMonta = new Date(pig.fechaMonta);
+                        fechaMonta.setDate(fechaMonta.getDate() + 114); // 3 meses, 3 semanas, 3 días
+                        const fechaParto = fechaMonta.toISOString().split('T')[0];
+                        document.getElementById('pig-next-birth').textContent = formatFecha(fechaParto);
+                    } else {
+                        document.getElementById('pig-next-birth').textContent = 'Desconocida';
+                    }
+                } else if (pig.estado === 'lactando') {
+                    status = "Lactando";
+                    document.getElementById('pig-next-birth').textContent = 'N/A';
+                } else {
+                    status = "Vacía";
+                    document.getElementById('pig-next-birth').textContent = 'N/A';
+                }
+                document.getElementById('pig-repro-status').textContent = status;
+                document.getElementById('pig-last-mating').textContent = pig.fechaMonta ? formatFecha(pig.fechaMonta) : 'N/A';
+                document.getElementById('pig-births').textContent = pig.partos || '0';
+                document.getElementById('pig-avg-offspring').textContent = pig.criasPromedio || 'N/A';
+            } else {
+                if (pig.estado === 'reproductor') {
+                    status = "Reproductor";
+                    document.getElementById('pig-repro-status').textContent = "Reproductor";
+                    document.getElementById('pig-last-mating').textContent = 'N/A';
+                    document.getElementById('pig-births').textContent = 'N/A';
+                    document.getElementById('pig-avg-offspring').textContent = 'N/A';
+                    document.getElementById('pig-next-birth').textContent = 'N/A';
+                } else {
+                    status = "Capado";
+                    document.getElementById('pig-repro-status').textContent = "Capado";
+                    document.getElementById('pig-last-mating').textContent = 'N/A';
+                    document.getElementById('pig-births').textContent = 'N/A';
+                    document.getElementById('pig-avg-offspring').textContent = 'N/A';
+                    document.getElementById('pig-next-birth').textContent = 'N/A';
+                }
+            }
+            
+            document.getElementById('pig-status').textContent = status;
+            
+            // Actualizar timeline de salud
+            const healthEvents = [];
+            
+            // Agregar vacunas
+            pig.vacunas?.forEach(vacuna => {
+                healthEvents.push({
+                    fecha: vacuna.fecha,
+                    content: `<strong>Vacuna:</strong> ${vacuna.tipo}<br><strong>Próxima:</strong> ${formatFecha(vacuna.proxima)}`
+                });
+            });
+            
+            // Agregar desparasitaciones
+            pig.desparasitaciones?.forEach(desparasitacion => {
+                healthEvents.push({
+                    fecha: desparasitacion.fecha,
+                    content: `<strong>Desparasitación</strong><br>Producto: ${desparasitacion.producto}<br>Dosis: ${desparasitacion.dosis}`
+                });
+            });
+            
+            // Ordenar eventos por fecha (más reciente primero)
+            healthEvents.sort((a, b) => new Date(b.fecha) - new Date(a.fecha));
+            
+            // Actualizar timeline
+            const timeline = document.querySelector('.timeline');
+            timeline.innerHTML = '';
+            
+            healthEvents.forEach(event => {
+                const item = document.createElement('div');
+                item.className = 'timeline-item';
+                item.innerHTML = `
+                    <div class="timeline-date">${formatFecha(event.fecha)}</div>
+                    <div class="timeline-content">${event.content}</div>
+                `;
+                timeline.appendChild(item);
+            });
+            
+            if (healthEvents.length === 0) {
+                timeline.innerHTML = '<div style="padding: 20px; text-align: center; color: #795548;">No hay registros de salud</div>';
+            }
+            
+            document.getElementById('current-section').textContent = pig.nombre || pig.identificacion;
+        }
+        
+        function updateNavSelection(section) {
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            if (section === 'dashboard') {
+                document.querySelector('.nav-item:nth-child(1)').classList.add('active');
+            } else if (section === 'total-porcinos' || section === 'category-detail' || section === 'pig-detail') {
+                document.querySelector('.nav-item:nth-child(2)').classList.add('active');
+            } else if (section === 'ventas' || section === 'factura') {
+                document.querySelector('.nav-item:nth-child(3)').classList.add('active');
+            } else if (section === 'granja') {
+                document.querySelector('.nav-item:nth-child(4)').classList.add('active');
+            }
+        }
+        
+        function updateGenderFields() {
+            const genero = document.getElementById('cerda-genero').value;
+            if (genero === 'hembra') {
+                document.getElementById('hembra-fields').classList.remove('hidden');
+                document.getElementById('macho-fields').classList.add('hidden');
+            } else {
+                document.getElementById('hembra-fields').classList.add('hidden');
+                document.getElementById('macho-fields').classList.remove('hidden');
+            }
+        }
+        
+        function guardarPorcino() {
+            const nombre = document.getElementById('cerda-numero').value;
+            const genero = document.getElementById('cerda-genero').value;
+            const fechaNac = document.getElementById('cerda-fecha').value;
+            const raza = document.getElementById('cerda-raza').value;
+            const peso = document.getElementById('cerda-peso').value;
+            const padre = document.getElementById('cerda-padre').value;
+            const madre = document.getElementById('cerda-madre').value;
+            const notas = document.getElementById('cerda-notas').value;
+            
+            if (!nombre || !fechaNac || !raza) {
+                alert('Por favor complete los campos obligatorios');
+                return;
+            }
+            
+            let estado, fechaMonta, partos, criasPromedio, castrado, fertilidad;
+            
+            if (genero === 'hembra') {
+                estado = document.getElementById('cerda-estado').value;
+                fechaMonta = document.getElementById('cerda-monta').value;
+                partos = parseInt(document.getElementById('cerda-partos').value) || 0;
+                criasPromedio = parseInt(document.getElementById('cerda-crias').value) || 0;
+                castrado = false;
+                fertilidad = null;
+            } else {
+                estado = document.getElementById('cerda-castrado').value;
+                fechaMonta = null;
+                partos = null;
+                criasPromedio = null;
+                castrado = estado === 'capado';
+                fertilidad = document.getElementById('cerda-fertilidad').value;
+            }
+            
+            const nuevoPorcino = {
+                id: porcinos.length + 1,
+                identificacion: `CER-${String(porcinos.length + 1).padStart(3, '0')}`,
+                nombre: nombre,
+                genero: genero,
+                raza: raza,
+                fechaNacimiento: fechaNac,
+                peso: peso ? parseFloat(peso) : 0,
+                estado: estado,
+                fechaMonta: fechaMonta,
+                partos: partos,
+                criasPromedio: criasPromedio,
+                castrado: castrado,
+                fertilidad: fertilidad,
+                padre: padre || null,
+                madre: madre || null,
+                notas: notas || null,
+                vacunas: [],
+                desparasitaciones: [],
+                pesos: []
+            };
+            
+            porcinos.push(nuevoPorcino);
+            
+            alert('Porcino registrado exitosamente');
+            
+            // Limpiar formulario
+            document.getElementById('cerda-numero').value = '';
+            document.getElementById('cerda-fecha').value = '';
+            document.getElementById('cerda-peso').value = '';
+            document.getElementById('cerda-monta').value = '';
+            document.getElementById('cerda-partos').value = '0';
+            document.getElementById('cerda-crias').value = '8';
+            document.getElementById('cerda-padre').value = '';
+            document.getElementById('cerda-madre').value = '';
+            document.getElementById('cerda-notas').value = '';
+            
+            // Actualizar dashboard
+            updateDashboard();
+            
+            // Volver al dashboard
+            showSection('dashboard');
+        }
+        
+        // Funciones para el módulo de ventas
+        function actualizarDatosPorcino() {
+            const porcinoId = document.getElementById('venta-porcino').value;
+            if (!porcinoId) {
+                document.getElementById('porcino-info').style.display = 'none';
+                return;
+            }
+            
+            const porcino = porcinos.find(p => p.id == porcinoId);
+            if (porcino) {
+                document.getElementById('porcino-venta-id').textContent = porcino.identificacion || 'N/A';
+                document.getElementById('porcino-venta-raza').textContent = porcino.raza || 'N/A';
+                document.getElementById('porcino-venta-peso').textContent = porcino.peso ? `${porcino.peso} kg` : 'N/A';
+                document.getElementById('porcino-venta-edad').textContent = calcularEdad(porcino.fechaNacimiento) || 'N/A';
+                document.getElementById('porcino-info').style.display = 'block';
+                
+                // Establecer precio sugerido basado en peso y raza
+                const precioBase = porcino.peso * 2.5; // $2.5 por kg como ejemplo
+                document.getElementById('venta-precio').value = precioBase.toFixed(2);
+            }
+        }
+        
+        function generarFactura() {
+            const cliente = document.getElementById('venta-cliente').value;
+            const identificacion = document.getElementById('venta-identificacion').value;
+            const direccion = document.getElementById('venta-direccion').value;
+            const telefono = document.getElementById('venta-telefono').value;
+            const porcinoId = document.getElementById('venta-porcino').value;
+            const precio = document.getElementById('venta-precio').value;
+            const metodo = document.getElementById('venta-metodo').value;
+            const notas = document.getElementById('venta-notas').value;
+            
+            if (!cliente || !identificacion || !porcinoId || !precio) {
+                alert('Por favor complete los campos obligatorios');
+                return;
+            }
+            
+            const porcino = porcinos.find(p => p.id == porcinoId);
+            if (!porcino) {
+                alert('Porcino no encontrado');
+                return;
+            }
+            
+            // Generar número de factura
+            const facturaNumero = `FAC-${String(facturas.length + 1).padStart(4, '0')}`;
+            
+            // Crear objeto de factura
+            const factura = {
+                numero: facturaNumero,
+                fecha: new Date().toISOString().split('T')[0],
+                cliente: cliente,
+                identificacion: identificacion,
+                direccion: direccion,
+                telefono: telefono,
+                porcinoId: porcinoId,
+                porcinoInfo: {
+                    identificacion: porcino.identificacion,
+                    nombre: porcino.nombre,
+                    raza: porcino.raza,
+                    peso: porcino.peso,
+                    edad: calcularEdad(porcino.fechaNacimiento)
+                },
+                precio: parseFloat(precio),
+                metodoPago: metodo,
+                notas: notas,
+                estado: 'pagado'
+            };
+            
+            facturas.push(factura);
+            
+            // Mostrar factura
+            mostrarFactura(factura);
+            
+            // Marcar porcino como vendido (en un sistema real, podrías moverlo a otra lista o cambiar su estado)
+            alert(`Porcino ${porcino.identificacion} marcado como vendido`);
+        }
+        
+        function mostrarFactura(factura) {
+            document.getElementById('factura-numero').textContent = factura.numero;
+            document.getElementById('factura-fecha').textContent = formatFecha(factura.fecha);
+            document.getElementById('factura-cliente').textContent = factura.cliente;
+            document.getElementById('factura-identificacion').textContent = factura.identificacion;
+            document.getElementById('factura-porcino-id').textContent = factura.porcinoInfo.identificacion;
+            document.getElementById('factura-porcino-raza').textContent = factura.porcinoInfo.raza;
+            document.getElementById('factura-porcino-peso').textContent = factura.porcinoInfo.peso ? `${factura.porcinoInfo.peso} kg` : 'N/A';
+            document.getElementById('factura-precio').textContent = `$${factura.precio.toFixed(2)}`;
+            document.getElementById('factura-metodo').textContent = factura.metodoPago.charAt(0).toUpperCase() + factura.metodoPago.slice(1);
+            
+            showSection('factura');
+        }
+        
+        function imprimirFactura() {
+            window.print();
+        }
+        
+        function enviarFactura() {
+            alert('Factura enviada por correo electrónico');
+        }
+        
+        function finalizarVenta() {
+            showSection('ventas');
+            limpiarFormularioVenta();
+        }
+        
+        function limpiarFormularioVenta() {
+            document.getElementById('venta-cliente').value = '';
+            document.getElementById('venta-identificacion').value = '';
+            document.getElementById('venta-direccion').value = '';
+            document.getElementById('venta-telefono').value = '';
+            document.getElementById('venta-porcino').value = '';
+            document.getElementById('venta-precio').value = '';
+            document.getElementById('venta-notas').value = '';
+            document.getElementById('porcino-info').style.display = 'none';
+        }
+        
+        // Funciones para el módulo de información de la granja
+        function guardarInformacionGranja() {
+            granjaInfo.nombre = document.getElementById('granja-nombre').value;
+            granjaInfo.propietario = document.getElementById('granja-propietario').value;
+            granjaInfo.ruc = document.getElementById('granja-ruc').value;
+            granjaInfo.direccion = document.getElementById('granja-direccion').value;
+            granjaInfo.telefono = document.getElementById('granja-telefono').value;
+            granjaInfo.email = document.getElementById('granja-email').value;
+            granjaInfo.latitud = document.getElementById('granja-latitud').value;
+            granjaInfo.longitud = document.getElementById('granja-longitud').value;
+            granjaInfo.descripcion = document.getElementById('granja-descripcion').value;
+            
+            alert('Información de la granja guardada exitosamente');
+        }
+        
+        function obtenerUbicacion() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        document.getElementById('granja-latitud').value = position.coords.latitude;
+                        document.getElementById('granja-longitud').value = position.coords.longitude;
+                    },
+                    (error) => {
+                        alert('Error al obtener la ubicación: ' + error.message);
+                    }
+                );
+            } else {
+                alert('Geolocalización no es soportada por este navegador');
+            }
+        }
+        
+        function updateDashboard() {
+            // Totales generales
+            document.getElementById('total-porcinos').textContent = porcinos.length;
+            
+            // Por género
+            const hembras = porcinos.filter(p => p.genero === 'hembra').length;
+            const machos = porcinos.filter(p => p.genero === 'macho').length;
+            document.getElementById('total-hembras').textContent = hembras;
+            document.getElementById('total-machos').textContent = machos;
+            
+            // Hembras preñadas
+            const prenadas = porcinos.filter(p => p.genero === 'hembra' && p.estado === 'prenada').length;
+            document.getElementById('total-prenadas').textContent = prenadas;
+            document.getElementById('total-prenadas-list').textContent = prenadas;
+            
+            // Hembras lactando
+            const lactando = porcinos.filter(p => p.genero === 'hembra' && p.estado === 'lactando').length;
+            document.getElementById('total-lactando').textContent = lactando;
+            
+            // Crías (menos de 1 año)
+            const criasHembras = porcinos.filter(p => p.genero === 'hembra' && esCria(p.fechaNacimiento)).length;
+            const criasMachos = porcinos.filter(p => p.genero === 'macho' && esCria(p.fechaNacimiento)).length;
+            document.getElementById('total-crias').textContent = criasHembras + criasMachos;
+            document.getElementById('total-crias-hembras').textContent = criasHembras;
+            document.getElementById('total-crias-machos').textContent = criasMachos;
+            
+            // Madres (hembras con partos)
+            const madres = porcinos.filter(p => p.genero === 'hembra' && p.partos > 0).length;
+            document.getElementById('total-madres').textContent = madres;
+            
+            // Machos reproductores
+            const reproductores = porcinos.filter(p => p.genero === 'macho' && p.estado === 'reproductor').length;
+            document.getElementById('total-reproductores').textContent = reproductores;
+            
+            // Machos capados
+            const capados = porcinos.filter(p => p.genero === 'macho' && p.estado === 'capado').length;
+            document.getElementById('total-capados').textContent = capados;
+            
+            // Reproducción (hembras preñadas + en celo)
+            document.getElementById('total-reproduccion').textContent = prenadas + lactando;
+            
+            // Vacunas próximas
+            const hoy = new Date();
+            const vacunasProximas = vacunas.filter(v => {
+                if (!v.proxima) return false;
+                const fechaProxima = new Date(v.proxima);
+                return fechaProxima >= hoy;
+            }).length;
+            document.getElementById('total-vacunas').textContent = vacunasProximas;
+            
+            // Alimentación (total registros)
+            document.getElementById('total-alimentacion').textContent = "10"; // Ejemplo
+            
+            // Control de pesos (total registros)
+            document.getElementById('total-pesos').textContent = "24"; // Ejemplo
+        }
+        
+        function calcularEdad(fechaNacimiento) {
+            if (!fechaNacimiento) return null;
+            
+            const nacimiento = new Date(fechaNacimiento);
+            const hoy = new Date();
+            
+            let años = hoy.getFullYear() - nacimiento.getFullYear();
+            let meses = hoy.getMonth() - nacimiento.getMonth();
+            
+            if (meses < 0 || (meses === 0 && hoy.getDate() < nacimiento.getDate())) {
+                años--;
+                meses += 12;
+            }
+            
+            if (años > 0) {
+                return `${años} año${años > 1 ? 's' : ''}`;
+            } else {
+                return `${meses} mes${meses > 1 ? 'es' : ''}`;
+            }
+        }
+        
+        function esCria(fechaNacimiento) {
+            if (!fechaNacimiento) return false;
+            const nacimiento = new Date(fechaNacimiento);
+            const hoy = new Date();
+            const diff = hoy - nacimiento;
+            const dias = diff / (1000 * 60 * 60 * 24);
+            return dias < 365; // Menos de 1 año
+        }
+        
+        function formatFecha(fechaStr) {
+            if (!fechaStr) return 'N/A';
+            const fecha = new Date(fechaStr);
+            return fecha.toLocaleDateString('es-ES');
+        }
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            updateGenderFields();
+        });
+    </script>
 </body>
 </html>
