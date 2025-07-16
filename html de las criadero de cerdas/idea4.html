@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Cuaderno Porcino</title>
+    <style>
+        :root {
+            --color-tierra: #8B4513;
+            --color-verde: #4CAF50;
+            --color-claro: #FFF8E1;
+            --color-boton: #5D4037;
+        }
+        
+        * {
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--color-claro);
+            color: #333;
+        }
+        
+        .container {
+            max-width: 100%;
+            padding: 15px;
+        }
+        
+        .header {
+            background-color: var(--color-tierra);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 0 0 15px 15px;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        .login-box {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        
+        .btn {
+            background-color: var(--color-boton);
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            font-size: 18px;
+            width: 100%;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            opacity: 0.9;
+        }
+        
+        .app-screen {
+            display: none;
+        }
+        
+        .icon-menu {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .icon-btn {
+            background-color: white;
+            border: none;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+            cursor: pointer;
+        }
+        
+        .icon-btn span {
+            font-size: 30px;
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        .total-box {
+            background-color: var(--color-tierra);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .animal-list {
+            background-color: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.1);
+        }
+        
+        .animal-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .back-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Pantalla de Login -->
+    <div id="login-screen" class="container">
+        <div class="header">
+            <h1>Mi Cuaderno Porcino</h1>
+            <p>Para campesinos que aman sus cerdas</p>
+        </div>
+        
+        <div class="login-box">
+            <h2>Entrar</h2>
+            <div class="form-group">
+                <label for="username">Nombre de usuario</label>
+                <input type="text" id="username" placeholder="Como en tu cuaderno">
+            </div>
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <input type="password" id="password" placeholder="La que anotaste">
+            </div>
+            <button class="btn" onclick="login()">Entrar</button>
+            <p style="text-align: center; margin-top: 15px;">
+                ¿Primera vez? <a href="#" onclick="showScreen('register')">Regístrate aquí</a>
+            </p>
+        </div>
+    </div>
+    
+    <!-- Pantalla de Registro -->
+    <div id="register-screen" class="container" style="display: none;">
+        <div class="header">
+            <h1>Registro</h1>
+        </div>
+        
+        <button class="back-btn" onclick="showScreen('login')">← Volver</button>
+        
+        <div class="login-box">
+            <h2>Crear cuenta</h2>
+            <div class="form-group">
+                <label for="reg-name">Tu nombre</label>
+                <input type="text" id="reg-name" placeholder="Ej: Juan Pérez">
+            </div>
+            <div class="form-group">
+                <label for="reg-farm">Nombre de tu granja</label>
+                <input type="text" id="reg-farm" placeholder="Ej: Los Laureles">
+            </div>
+            <div class="form-group">
+                <label for="reg-user">Usuario</label>
+                <input type="text" id="reg-user" placeholder="Ej: juan.granjero">
+            </div>
+            <div class="form-group">
+                <label for="reg-pass">Contraseña</label>
+                <input type="password" id="reg-pass" placeholder="Anótala en tu cuaderno">
+            </div>
+            <button class="btn" onclick="register()">Guardar</button>
+        </div>
+    </div>
+    
+    <!-- Pantalla Principal -->
+    <div id="main-screen" class="container" style="display: none;">
+        <div class="header">
+            <h1 id="farm-name">Granja Los Laureles</h1>
+            <p>Hola, <span id="user-display">Juan</span></p>
+        </div>
+        
+        <div class="total-box">
+            <h2>Total de Cerdas</h2>
+            <div style="font-size: 36px; font-weight: bold;">24</div>
+            <div style="margin-top: 5px;">
+                <span>12 Hembras</span> | 
+                <span>8 Machos</span> | 
+                <span>4 Crías</span>
+            </div>
+        </div>
+        
+        <div class="icon-menu">
+            <button class="icon-btn" onclick="showScreen('register-pig')">
+                <span>➕</span>
+                Registrar Cerda
+            </button>
+            <button class="icon-btn" onclick="showScreen('females')">
+                <span>🐷</span>
+                Hembras (12)
+            </button>
+            <button class="icon-btn" onclick="showScreen('males')">
+                <span>🐗</span>
+                Machos (8)
+            </button>
+            <button class="icon-btn" onclick="showScreen('offspring')">
+                <span>🐤</span>
+                Crías (4)
+            </button>
+            <button class="icon-btn" onclick="showScreen('vaccines')">
+                <span>💉</span>
+                Vacunas
+            </button>
+            <button class="icon-btn" onclick="showScreen('notes')">
+                <span>📝</span>
+                Notas
+            </button>
+        </div>
+    </div>
+    
+    <!-- Pantalla de Registro de Cerda -->
+    <div id="register-pig" class="container app-screen">
+        <div class="header">
+            <h1>Registrar Cerda</h1>
+        </div>
+        
+        <button class="back-btn" onclick="showScreen('main')">← Volver</button>
+        
+        <div class="login-box">
+            <div class="form-group">
+                <label for="pig-name">Nombre/Número</label>
+                <input type="text" id="pig-name" placeholder="Ej: Lola o CER-001">
+            </div>
+            <div class="form-group">
+                <label for="pig-type">Tipo</label>
+                <select id="pig-type" class="form-control">
+                    <option value="female">Hembra</option>
+                    <option value="male">Macho</option>
+                    <option value="offspring">Cría</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="pig-birth">Fecha nacimiento (aprox.)</label>
+                <input type="date" id="pig-birth">
+            </div>
+            <div class="form-group">
+                <label for="pig-weight">Peso (kg)</label>
+                <input type="number" id="pig-weight" placeholder="Ej: 120">
+            </div>
+            <button class="btn" onclick="savePig()">Guardar</button>
+        </div>
+    </div>
+    
+    <!-- Pantalla de Hembras -->
+    <div id="females" class="container app-screen">
+        <div class="header">
+            <h1>Mis Hembras</h1>
+        </div>
+        
+        <button class="back-btn" onclick="showScreen('main')">← Volver</button>
+        
+        <div class="total-box" style="background-color: #FFCDD2; color: #333;">
+            <div style="font-size: 24px; font-weight: bold;">
+                <span>8 Madres</span> | 
+                <span>4 Preñadas</span>
+            </div>
+        </div>
+        
+        <div class="animal-list">
+            <h3>Preñadas</h3>
+            <div class="animal-item">
+                <strong>Lola</strong> - 3 años
+                <div>Parto estimado: 15/08/2023</div>
+            </div>
+            <div class="animal-item">
+                <strong>Rosita</strong> - 2 años
+                <div>Parto estimado: 20/09/2023</div>
+            </div>
+            
+            <h3 style="margin-top: 20px;">Otras Hembras</h3>
+            <div class="animal-item">
+                <strong>Mancha</strong> - 4 años (8 partos)
+            </div>
+            <div class="animal-item">
+                <strong>Blanca</strong> - 3 años (5 partos)
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pantalla de Machos -->
+    <div id="males" class="container app-screen">
+        <div class="header">
+            <h1>Mis Machos</h1>
+        </div>
+        
+        <button class="back-btn" onclick="showScreen('main')">← Volver</button>
+        
+        <div class="total-box" style="background-color: #BBDEFB; color: #333;">
+            <div style="font-size: 24px; font-weight: bold;">
+                <span>2 Reproductores</span> | 
+                <span>6 Capados</span>
+            </div>
+        </div>
+        
+        <div class="animal-list">
+            <h3>Reproductores</h3>
+            <div class="animal-item">
+                <strong>Toro</strong> - 4 años
+                <div>Última monta: 15/06/2023</div>
+            </div>
+            <div class="animal-item">
+                <strong>Sultán</strong> - 3 años
+                <div>Última monta: 20/06/2023</div>
+            </div>
+            
+            <h3 style="margin-top: 20px;">Machos capados</h3>
+            <div class="animal-item">
+                <strong>Rey</strong> - 2 años (90kg)
+            </div>
+            <div class="animal-item">
+                <strong>Fuerte</strong> - 1.5 años (80kg)
+            </div>
+        </div>
+    </div>
+    
+    <!-- Pantalla de Vacunas -->
+    <div id="vaccines" class="container app-screen">
+        <div class="header">
+            <h1>Control de Vacunas</h1>
+        </div>
+        
+        <button class="back-btn" onclick="showScreen('main')">← Volver</button>
+        
+        <div class="animal-list">
+            <h3>Próximas vacunas</h3>
+            <div class="animal-item">
+                <strong>Lola</strong> - Erisipela
+                <div>Fecha: 05/08/2023</div>
+            </div>
+            <div class="animal-item">
+                <strong>Camada #4</strong> - Parvovirus
+                <div>Fecha: 10/08/2023</div>
+            </div>
+            
+            <h3 style="margin-top: 20px;">Registrar vacuna</h3>
+            <div class="form-group">
+                <label>Cerda</label>
+                <select class="form-control">
+                    <option>Seleccionar...</option>
+                    <option>Lola</option>
+                    <option>Toro</option>
+                    <option>Camada #4</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Tipo de vacuna</label>
+                <select class="form-control">
+                    <option>Seleccionar...</option>
+                    <option>Erisipela</option>
+                    <option>Parvovirus</option>
+                    <option>Peste porcina</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Fecha</label>
+                <input type="date" class="form-control">
+            </div>
+            <button class="btn">Guardar</button>
+        </div>
+    </div>
+
+    <script>
+        // Funciones simples para mostrar pantallas
+        function showScreen(screenId) {
+            // Oculta todas las pantallas
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('register-screen').style.display = 'none';
+            document.getElementById('main-screen').style.display = 'none';
+            
+            document.querySelectorAll('.app-screen').forEach(screen => {
+                screen.style.display = 'none';
+            });
+            
+            // Muestra la pantalla solicitada
+            if (screenId === 'login') {
+                document.getElementById('login-screen').style.display = 'block';
+            } else if (screenId === 'register') {
+                document.getElementById('register-screen').style.display = 'block';
+            } else if (screenId === 'main') {
+                document.getElementById('main-screen').style.display = 'block';
+            } else {
+                document.getElementById(screenId).style.display = 'block';
+            }
+        }
+        
+        function login() {
+            const username = document.getElementById('username').value;
+            if (username) {
+                document.getElementById('user-display').textContent = username.split(' ')[0];
+                showScreen('main');
+            } else {
+                alert('Por favor ingresa tu usuario');
+            }
+        }
+        
+        function register() {
+            const farmName = document.getElementById('reg-farm').value;
+            const userName = document.getElementById('reg-user').value;
+            
+            if (farmName && userName) {
+                document.getElementById('farm-name').textContent = farmName;
+                document.getElementById('user-display').textContent = document.getElementById('reg-name').value.split(' ')[0];
+                alert('Registro exitoso. Ahora puedes entrar con tus datos.');
+                showScreen('login');
+            } else {
+                alert('Por favor completa los campos requeridos');
+            }
+        }
+        
+        function savePig() {
+            const pigName = document.getElementById('pig-name').value;
+            if (pigName) {
+                alert(`Cerda ${pigName} registrada correctamente`);
+                showScreen('main');
+            } else {
+                alert('Por favor ingresa al menos un nombre/número');
+            }
+        }
+        
+        // Iniciar en la pantalla de login
+        showScreen('login');
+    </script>
+</body>
+</html>

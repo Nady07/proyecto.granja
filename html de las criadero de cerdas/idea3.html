@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Cuaderno Porcino Digital</title>
+    <style>
+        :root {
+            --color-marron: #6D4C41;
+            --color-verde: #388E3C;
+            --color-beige: #D7CCC8;
+            --color-papel: #FFF8E1;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--color-papel);
+            color: #5D4037;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.1);
+            border: 1px solid var(--color-beige);
+        }
+        
+        .header {
+            background-color: var(--color-marron);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            font-style: italic;
+            margin-top: 5px;
+        }
+        
+        .login-section, .register-section {
+            background-color: var(--color-papel);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+            border: 1px dashed var(--color-marron);
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: var(--color-marron);
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--color-beige);
+            border-radius: 5px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            background-color: var(--color-verde);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        button:hover {
+            background-color: #2E7D32;
+        }
+        
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 12px 20px;
+            background-color: var(--color-beige);
+            cursor: pointer;
+            border-radius: 5px 5px 0 0;
+            margin-right: 5px;
+            font-weight: bold;
+        }
+        
+        .tab.active {
+            background-color: var(--color-marron);
+            color: white;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .help-text {
+            font-size: 14px;
+            color: #795548;
+            margin-top: 5px;
+            font-style: italic;
+        }
+        
+        .cerdos-section {
+            display: none; /* Solo se muestra después del login */
+        }
+        
+        .foto-btn {
+            background-color: #BBDEFB;
+            color: #0D47A1;
+            padding: 15px;
+            text-align: center;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 15px 0;
+            font-weight: bold;
+        }
+        
+        .simple-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        
+        .simple-table th, .simple-table td {
+            border: 1px solid var(--color-beige);
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .simple-table th {
+            background-color: var(--color-marron);
+            color: white;
+        }
+        
+        .simple-table tr:nth-child(even) {
+            background-color: var(--color-papel);
+        }
+        
+        .icon {
+            font-size: 20px;
+            margin-right: 10px;
+            vertical-align: middle;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 10px;
+                margin: 10px;
+            }
+            
+            .header {
+                padding: 15px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- PORTADA INICIAL (LOGIN/REGISTRO) -->
+        <div class="header">
+            <h1>📓 Mi Cuaderno Porcino Digital</h1>
+            <div class="subtitle">Para productores que prefieren el cuaderno, pero quieren ventajas digitales</div>
+        </div>
+        
+        <div class="tabs">
+            <div class="tab active" onclick="showTab('login')">Entrar</div>
+            <div class="tab" onclick="showTab('register')">Registrarse</div>
+        </div>
+        
+        <div id="login" class="login-section">
+            <h2>Ingrese a su cuaderno</h2>
+            <div class="form-group">
+                <label for="login-user">Usuario o correo</label>
+                <input type="text" id="login-user" placeholder="Como aparece en su cuaderno">
+            </div>
+            <div class="form-group">
+                <label for="login-pass">Contraseña</label>
+                <input type="password" id="login-pass" placeholder="La que anotó al registrarse">
+                <div class="help-text">Si olvidó su contraseña, pregúntele al técnico que le recomendó esta aplicación</div>
+            </div>
+            <button onclick="loginUser()">Entrar a mi granja</button>
+        </div>
+        
+        <div id="register" class="register-section hidden">
+            <h2>Registro de productor</h2>
+            <div class="form-group">
+                <label for="reg-name">Su nombre completo</label>
+                <input type="text" id="reg-name" placeholder="Ej: Juan Pérez López">
+            </div>
+            <div class="form-group">
+                <label for="reg-farm">Nombre de su granja</label>
+                <input type="text" id="reg-farm" placeholder="Ej: Granja Los Laureles">
+            </div>
+            <div class="form-group">
+                <label for="reg-phone">Teléfono (opcional)</label>
+                <input type="tel" id="reg-phone" placeholder="Para recordatorios importantes">
+            </div>
+            <div class="form-group">
+                <label for="reg-user">Elija un nombre de usuario</label>
+                <input type="text" id="reg-user" placeholder="Ej: juan.granjero">
+                <div class="help-text">Puede usar su nombre o algo que recuerde fácil</div>
+            </div>
+            <div class="form-group">
+                <label for="reg-pass">Cree una contraseña</label>
+                <input type="password" id="reg-pass" placeholder="Algo que no olvide">
+                <div class="help-text">Anótela en su cuaderno físico por si la olvida</div>
+            </div>
+            <button onclick="registerUser()">Guardar mi registro</button>
+        </div>
+        
+        <!-- SECCIÓN PRINCIPAL (SOLO VISIBLE DESPUÉS DE LOGIN) -->
+        <div id="main-app" class="cerdos-section">
+            <div class="header" style="margin-bottom: 20px;">
+                <h1 id="farm-name">Granja Los Laureles</h1>
+                <div class="subtitle">Bienvenido, <span id="user-name">Juan Pérez</span></div>
+            </div>
+            
+            <div style="text-align: center; margin: 20px 0;">
+                <button onclick="showSection('registrar')" style="background-color: var(--color-marron); margin: 5px;">
+                    <span class="icon">➕</span>Registrar nueva cerda
+                </button>
+                <button onclick="showSection('lista')" style="margin: 5px;">
+                    <span class="icon">📋</span>Ver todas mis cerdas
+                </button>
+                <button onclick="showSection('vacunas')" style="background-color: #D32F2F; margin: 5px;">
+                    <span class="icon">💉</span>Control de vacunas
+                </button>
+            </div>
+            
+            <!-- SECCIÓN REGISTRAR NUEVA CERDA -->
+            <div id="registrar" class="app-section">
+                <h2><span class="icon">🐷</span> Registrar nueva cerda</h2>
+                
+                <div class="form-group">
+                    <label for="cerda-numero">Número o nombre</label>
+                    <input type="text" id="cerda-numero" placeholder="Ej: Lola, Marquesa o CER-001">
+                    <div class="help-text">Como usted la identifica en su cuaderno</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cerda-fecha">Fecha de nacimiento (aproximada)</label>
+                    <input type="date" id="cerda-fecha">
+                    <div class="help-text">Si no sabe exacto, ponga el mes y año que recuerde</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cerda-raza">Raza o tipo</label>
+                    <select id="cerda-raza">
+                        <option value="">Seleccione...</option>
+                        <option value="criolla">Criolla</option>
+                        <option value="landrace">Landrace (orejas caídas)</option>
+                        <option value="large-white">Large White (blanca)</option>
+                        <option value="duroc">Duroc (roja)</option>
+                        <option value="otra">Otra raza</option>
+                        <option value="mezcla">Mezcla</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cerda-peso">Peso aproximado (kg)</label>
+                    <input type="number" id="cerda-peso" placeholder="Ej: 120">
+                    <div class="help-text">Si no sabe exacto, estime visualmente</div>
+                </div>
+                
+                <div class="foto-btn" onclick="tomarFoto()">
+                    <span class="icon">📸</span> Tomar foto de la cerda (opcional)
+                </div>
+                
+                <h3>Datos reproductivos</h3>
+                
+                <div class="form-group">
+                    <label for="cerda-celo">Último celo (cuando mostró calor)</label>
+                    <input type="date" id="cerda-celo">
+                </div>
+                
+                <div class="form-group">
+                    <label for="cerda-monta">Última monta/inseminación</label>
+                    <input type="date" id="cerda-monta">
+                    <div class="help-text">Cuando el macho la montó o le pusieron semen</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="cerda-partos">Veces que ha parido</label>
+                    <input type="number" id="cerda-partos" placeholder="Ej: 3">
+                </div>
+                
+                <button onclick="guardarCerda()">
+                    <span class="icon">💾</span> Guardar en mi cuaderno digital
+                </button>
+            </div>
+            
+            <!-- SECCIÓN LISTA DE CERDAS -->
+            <div id="lista" class="app-section hidden">
+                <h2><span class="icon">📋</span> Mis cerdas registradas</h2>
+                
+                <div class="form-group">
+                    <input type="text" id="buscar-cerda" placeholder="Buscar por nombre o número...">
+                </div>
+                
+                <table class="simple-table">
+                    <thead>
+                        <tr>
+                            <th>Número/Nombre</th>
+                            <th>Raza</th>
+                            <th>Edad</th>
+                            <th>Última monta</th>
+                            <th>Estado</th>
+                        </tr>
+                    </thead>
+                    <tbody id="lista-cerdas">
+                        <!-- Ejemplo de datos -->
+                        <tr>
+                            <td>Lola</td>
+                            <td>Criolla</td>
+                            <td>2 años</td>
+                            <td>15/06/2023</td>
+                            <td>Gestante</td>
+                        </tr>
+                        <tr>
+                            <td>Marquesa</td>
+                            <td>Landrace</td>
+                            <td>3 años</td>
+                            <td>20/05/2023</td>
+                            <td>Lactando</td>
+                        </tr>
+                        <tr>
+                            <td>CER-003</td>
+                            <td>Mezcla</td>
+                            <td>1 año</td>
+                            <td>-</td>
+                            <td>Vacía</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- SECCIÓN CONTROL DE VACUNAS -->
+            <div id="vacunas" class="app-section hidden">
+                <h2><span class="icon">💉</span> Control de vacunas</h2>
+                
+                <div class="form-group">
+                    <label for="vacuna-cerda">Cerda a vacunar</label>
+                    <select id="vacuna-cerda">
+                        <option value="">Seleccione una cerda...</option>
+                        <option value="Lola">Lola</option>
+                        <option value="Marquesa">Marquesa</option>
+                        <option value="CER-003">CER-003</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="vacuna-tipo">Tipo de vacuna</label>
+                    <select id="vacuna-tipo">
+                        <option value="">Seleccione...</option>
+                        <option value="peste-porcina">Peste porcina</option>
+                        <option value="erisipela">Erisipela (mal rojo)</option>
+                        <option value="parvovirus">Parvovirus</option>
+                        <option value="desparasitante">Desparasitante</option>
+                    </select>
+                    <div class="help-text">Si no está segura, consulte a su técnico</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="vacuna-fecha">Fecha de aplicación</label>
+                    <input type="date" id="vacuna-fecha">
+                </div>
+                
+                <div class="form-group">
+                    <label for="vacuna-proxima">Próxima dosis (si aplica)</label>
+                    <input type="date" id="vacuna-proxima">
+                    <div class="help-text">Algunas vacunas necesitan refuerzo</div>
+                </div>
+                
+                <button onclick="guardarVacuna()">
+                    <span class="icon">💾</span> Registrar esta vacuna
+                </button>
+                
+                <h3 style="margin-top: 30px;">Próximas vacunas pendientes</h3>
+                
+                <table class="simple-table">
+                    <thead>
+                        <tr>
+                            <th>Cerda</th>
+                            <th>Vacuna</th>
+                            <th>Fecha aplicada</th>
+                            <th>Próxima dosis</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Lola</td>
+                            <td>Erisipela</td>
+                            <td>15/05/2023</td>
+                            <td>15/08/2023</td>
+                        </tr>
+                        <tr>
+                            <td>Marquesa</td>
+                            <td>Parvovirus</td>
+                            <td>10/06/2023</td>
+                            <td>10/09/2023</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funciones básicas para demostración
+        function showTab(tabId) {
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.tab[onclick="showTab('${tabId}')"]`).classList.add('active');
+            
+            document.getElementById('login').classList.add('hidden');
+            document.getElementById('register').classList.add('hidden');
+            document.getElementById(tabId).classList.remove('hidden');
+        }
+        
+        function loginUser() {
+            // En una aplicación real, esto verificaría credenciales
+            document.getElementById('main-app').style.display = 'block';
+            document.getElementById('login').style.display = 'none';
+            document.getElementById('register').style.display = 'none';
+            
+            // Mostrar nombre de usuario y granja (ejemplo)
+            document.getElementById('user-name').textContent = "Juan Pérez";
+            document.getElementById('farm-name').textContent = "Granja Los Laureles";
+            
+            // Mostrar sección por defecto
+            showSection('registrar');
+        }
+        
+        function registerUser() {
+            // En una aplicación real, esto guardaría los datos
+            alert('Registro exitoso. Ahora puede ingresar con sus datos.');
+            showTab('login');
+        }
+        
+        function showSection(sectionId) {
+            document.querySelectorAll('.app-section').forEach(section => {
+                section.classList.add('hidden');
+            });
+            document.getElementById(sectionId).classList.remove('hidden');
+        }
+        
+        function guardarCerda() {
+            alert('Cerda registrada correctamente en su cuaderno digital');
+            // Limpiar formulario
+            document.getElementById('cerda-numero').value = '';
+            // Mostrar lista actualizada
+            showSection('lista');
+        }
+        
+        function guardarVacuna() {
+            alert('Vacuna registrada correctamente');
+            // Limpiar formulario
+            document.getElementById('vacuna-cerda').value = '';
+            document.getElementById('vacuna-tipo').value = '';
+            document.getElementById('vacuna-fecha').value = '';
+            document.getElementById('vacuna-proxima').value = '';
+        }
+        
+        function tomarFoto() {
+            alert('En una aplicación real, esto abriría la cámara del dispositivo');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Porcino Sostenible</title>
+    <style>
+        :root {
+            --color-tierra: #8B4513;
+            --color-verde: #4CAF50;
+            --color-alerta: #FF5722;
+            --color-fondo: #FFF8E1;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: var(--color-fondo);
+            color: #5D4037;
+            margin: 0;
+            padding: 10px;
+            line-height: 1.5;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        h1, h2, h3 {
+            color: var(--color-tierra);
+        }
+        
+        .header {
+            background-color: #D7CCC8;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 2px dashed var(--color-tierra);
+        }
+        
+        .section {
+            margin-bottom: 25px;
+            padding: 15px;
+            border: 1px solid #BCAAA4;
+            border-radius: 8px;
+            background-color: #EFEBE9;
+        }
+        
+        .section-title {
+            background-color: var(--color-tierra);
+            color: white;
+            padding: 8px 15px;
+            margin: -15px -15px 15px -15px;
+            border-radius: 5px 5px 0 0;
+            font-size: 1.2em;
+        }
+        
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-group {
+            margin-bottom: 12px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: var(--color-tierra);
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #A1887F;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: var(--color-tierra);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+            display: block;
+            width: 100%;
+        }
+        
+        button:hover {
+            background-color: #6D4C41;
+        }
+        
+        .alertas {
+            background-color: #FFE0B2;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 5px solid var(--color-alerta);
+        }
+        
+        .resumen {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .resumen-item {
+            flex: 1;
+            min-width: 120px;
+            background-color: #C8E6C9;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid var(--color-verde);
+        }
+        
+        .resumen-item h3 {
+            margin: 0 0 5px 0;
+            font-size: 1em;
+        }
+        
+        .resumen-item p {
+            margin: 0;
+            font-size: 1.5em;
+            font-weight: bold;
+            color: var(--color-tierra);
+        }
+        
+        .foto-btn {
+            background-color: #BBDEFB;
+            color: #0D47A1;
+            padding: 10px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        
+        .qr-btn {
+            background-color: #C5CAE9;
+            color: #1A237E;
+            padding: 10px;
+            text-align: center;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        .icono {
+            font-size: 1.2em;
+            margin-right: 5px;
+        }
+        
+        @media (max-width: 600px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .resumen-item {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🐷 Registro Porcino Sostenible 🐖</h1>
+            <p>Herramienta para el manejo responsable de su granja porcina</p>
+        </div>
+        
+        <div class="resumen">
+            <div class="resumen-item">
+                <h3>🐽 Cerdas Totales</h3>
+                <p id="total-cerdas">0</p>
+            </div>
+            <div class="resumen-item">
+                <h3>🤰 En gestación</h3>
+                <p id="gestantes">0</p>
+            </div>
+            <div class="resumen-item">
+                <h3>🍼 En lactancia</h3>
+                <p id="lactantes">0</p>
+            </div>
+            <div class="resumen-item">
+                <h3>🐤 Lechones</h3>
+                <p id="lechones">0</p>
+            </div>
+        </div>
+        
+        <div class="alertas">
+            <h3>📢 Alertas Importantes</h3>
+            <div id="alertas-container">
+                <p>⚠️ No hay alertas pendientes</p>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">📝 Registrar Nueva Cerda</div>
+            <div class="grid">
+                <div class="form-group">
+                    <label for="numero-arete">📌 Número de identificación</label>
+                    <input type="text" id="numero-arete" placeholder="Ej: CER-001">
+                </div>
+                <div class="form-group">
+                    <label for="fecha-nacimiento">📅 Fecha de nacimiento</label>
+                    <input type="date" id="fecha-nacimiento">
+                </div>
+                <div class="form-group">
+                    <label for="raza">🐖 Raza</label>
+                    <select id="raza">
+                        <option value="">Seleccionar</option>
+                        <option value="landrace">Landrace</option>
+                        <option value="large-white">Large White</option>
+                        <option value="duroc">Duroc</option>
+                        <option value="criolla">Criolla</option>
+                        <option value="otra">Otra</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="peso">⚖ Peso actual (kg)</label>
+                    <input type="number" id="peso" placeholder="Ej: 120">
+                </div>
+            </div>
+            
+            <h3>🔄 Reproducción</h3>
+            <div class="grid">
+                <div class="form-group">
+                    <label for="ultimo-celo">📅 Último celo</label>
+                    <input type="date" id="ultimo-celo">
+                </div>
+                <div class="form-group">
+                    <label for="ultima-cubricion">💞 Última cubrición (monta/inseminación)</label>
+                    <input type="date" id="ultima-cubricion">
+                </div>
+                <div class="form-group">
+                    <label for="estado-reproductivo">🤰 Estado reproductivo</label>
+                    <select id="estado-reproductivo">
+                        <option value="vacia">Vacía (no preñada)</option>
+                        <option value="gestante">Gestante (preñada)</option>
+                        <option value="lactante">Lactante (amamantando)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="partos">👶 Partos totales</label>
+                    <input type="number" id="partos" placeholder="Veces que ha parido">
+                </div>
+            </div>
+            
+            <div class="foto-btn" id="btn-foto">
+                📸 Tomar foto de la cerda
+            </div>
+            
+            <div class="qr-btn" id="btn-qr">
+                🔳 Generar código QR para identificación
+            </div>
+            
+            <button type="button" id="guardar-cerda">💾 Guardar información</button>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">👨‍🌾 Manejo Sostenible</div>
+            <div class="grid">
+                <div class="form-group">
+                    <label for="alimentacion">🌾 Tipo de alimentación</label>
+                    <select id="alimentacion">
+                        <option value="concentrado">Concentrado comercial</option>
+                        <option value="mixta">Mixta (concentrado + forraje)</option>
+                        <option value="forraje">Forraje y recursos locales</option>
+                        <option value="organica">Orgánica/alternativa</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="manejo-residuos">🗑 Manejo de residuos</label>
+                    <select id="manejo-residuos">
+                        <option value="laguna">Laguna de oxidación</option>
+                        <option value="compost">Compostaje</option>
+                        <option value="biogas">Biodigestor</option>
+                        <option value="otro">Otro sistema</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="consumo-agua">💧 Consumo diario de agua (litros)</label>
+                    <input type="number" id="consumo-agua" placeholder="Ej: 15">
+                </div>
+                <div class="form-group">
+                    <label for="bienestar">🐷 Indicador de bienestar</label>
+                    <select id="bienestar">
+                        <option value="1">⭐ Básico</option>
+                        <option value="2">⭐⭐ Mejorado</option>
+                        <option value="3">⭐⭐⭐ Óptimo</option>
+                    </select>
+                </div>
+            </div>
+            <button type="button">🌱 Guardar datos de sostenibilidad</button>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">💉 Salud y Vacunación</div>
+            <div class="grid">
+                <div class="form-group">
+                    <label for="vacuna-tipo">🦠 Tipo de vacuna</label>
+                    <select id="vacuna-tipo">
+                        <option value="">Seleccionar</option>
+                        <option value="peste-porcina">Peste porcina</option>
+                        <option value="erisipela">Erisipela</option>
+                        <option value="parvovirus">Parvovirus</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="vacuna-fecha">📅 Fecha aplicación</label>
+                    <input type="date" id="vacuna-fecha">
+                </div>
+                <div class="form-group">
+                    <label for="vacuna-proxima">⏳ Próxima dosis</label>
+                    <input type="date" id="vacuna-proxima">
+                </div>
+                <div class="form-group">
+                    <label for="vacuna-veterinario">👨‍⚕ Veterinario responsable</label>
+                    <input type="text" id="vacuna-veterinario" placeholder="Nombre del profesional">
+                </div>
+            </div>
+            <button type="button">💊 Registrar vacuna</button>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">📊 Reportes Sostenibles</div>
+            <div style="text-align: center; margin: 20px 0;">
+                <button type="button" style="background-color: var(--color-verde); margin: 5px;">🌍 Generar reporte ambiental</button>
+                <button type="button" style="background-color: var(--color-tierra); margin: 5px;">📈 Ver estadísticas reproductivas</button>
+                <button type="button" style="background-color: #2196F3; margin: 5px;">💵 Análisis de costos</button>
+            </div>
+            <p style="text-align: center; font-style: italic;">
+                Estos reportes ayudan a mejorar la sostenibilidad y rentabilidad de su granja
+            </p>
+        </div>
+    </div>
+
+    <script>
+        // Ejemplo simple de funcionalidad (para implementar completamente necesitarías backend)
+        document.getElementById('guardar-cerda').addEventListener('click', function() {
+            alert('Información de la cerda guardada correctamente. En una implementación real, esto se conectaría a una base de datos.');
+        });
+        
+        // Actualizar resumen (datos de ejemplo)
+        document.getElementById('total-cerdas').textContent = '24';
+        document.getElementById('gestantes').textContent = '8';
+        document.getElementById('lactantes').textContent = '5';
+        document.getElementById('lechones').textContent = '63';
+        
+        // Alertas de ejemplo
+        const alertas = [
+            "⚠️ 3 cerdas necesitan vacuna contra erisipela",
+            "📅 Cerda CER-015 probable parto en 5 días",
+            "💧 Revisar consumo de agua en corral 3"
+        ];
+        
+        const alertasContainer = document.getElementById('alertas-container');
+        alertasContainer.innerHTML = '';
+        alertas.forEach(alerta => {
+            const p = document.createElement('p');
+            p.textContent = alerta;
+            alertasContainer.appendChild(p);
+        });
+    </script>
+</body>
+</html>
