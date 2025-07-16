@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgroLID - Del corral a la venta, todo en tu bolsillo</title>
+    <style>
+        :root {
+            --primary: #8B4513; /* Café tierra */
+            --secondary: #556B2F; /* Verde bosque */
+            --accent: #DAA520; /* Dorado */
+            --light: #F5F5DC; /* Beige claro */
+            --dark: #2F4F4F; /* Gris oscuro */
+            --success: #228B22; /* Verde éxito */
+            --warning: #FF8C00; /* Naranja advertencia */
+            --danger: #B22222; /* Rojo peligro */
+            --info: #4682B4; /* Azul info */
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+            color: #333;
+        }
+        
+        .container {
+            max-width: 100%;
+            padding: 0 15px;
+        }
+        
+        /* Header */
+        .header {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .header p {
+            margin: 5px 0 0;
+            font-size: 1rem;
+        }
+        
+        /* Navigation */
+        .nav-tabs {
+            display: flex;
+            background-color: var(--secondary);
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+        
+        .nav-tab {
+            padding: 12px 20px;
+            color: white;
+            text-decoration: none;
+            text-align: center;
+            flex: 1;
+            border-bottom: 3px solid transparent;
+        }
+        
+        .nav-tab.active {
+            border-bottom-color: var(--accent);
+            font-weight: bold;
+        }
+        
+        .nav-tab i {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        /* Dashboard */
+        .dashboard {
+            display: none;
+            padding: 15px;
+        }
+        
+        .dashboard.active {
+            display: block;
+        }
+        
+        .card {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            overflow: hidden;
+        }
+        
+        .card-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 10px 15px;
+            font-weight: bold;
+        }
+        
+        .card-body {
+            padding: 15px;
+        }
+        
+        /* Quick Actions */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .quick-action {
+            background-color: white;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            color: var(--dark);
+            text-decoration: none;
+        }
+        
+        .quick-action i {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        /* Animal List */
+        .animal-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .animal-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .animal-item:last-child {
+            border-bottom: none;
+        }
+        
+        .animal-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 1.5rem;
+        }
+        
+        .animal-info {
+            flex: 1;
+        }
+        
+        .animal-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .animal-details {
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .animal-status {
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+        
+        .status-healthy {
+            background-color: rgba(34, 139, 34, 0.2);
+            color: var(--success);
+        }
+        
+        .status-sick {
+            background-color: rgba(178, 34, 34, 0.2);
+            color: var(--danger);
+        }
+        
+        /* Task List */
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .task-checkbox {
+            margin-right: 10px;
+        }
+        
+        .task-info {
+            flex: 1;
+        }
+        
+        .task-due {
+            font-size: 0.8rem;
+            color: var(--warning);
+        }
+        
+        /* Form */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+            text-decoration: none;
+        }
+        
+        .btn-block {
+            display: block;
+            width: 100%;
+        }
+        
+        .btn-accent {
+            background-color: var(--accent);
+        }
+        
+        /* Marketplace */
+        .marketplace-item {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 15px;
+        }
+        
+        .marketplace-image {
+            height: 150px;
+            background-color: #eee;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .marketplace-body {
+            padding: 10px;
+        }
+        
+        .marketplace-price {
+            font-weight: bold;
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+        
+        /* Weather */
+        .weather-card {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+        }
+        
+        .weather-icon {
+            font-size: 2.5rem;
+            margin-right: 15px;
+            color: var(--info);
+        }
+        
+        .weather-info {
+            flex: 1;
+        }
+        
+        .weather-temp {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        /* Alert */
+        .alert {
+            padding: 10px 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .alert-warning {
+            background-color: rgba(255, 140, 0, 0.2);
+            color: var(--warning);
+        }
+        
+        /* Responsive */
+        @media (min-width: 768px) {
+            .container {
+                max-width: 750px;
+                margin: 0 auto;
+            }
+            
+            .quick-actions {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <div class="header">
+        <div class="container">
+            <h1>AgroLID</h1>
+            <p>Del corral a la venta, todo en tu bolsillo</p>
+        </div>
+    </div>
+    
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs">
+        <a href="#" class="nav-tab active" onclick="showDashboard('dashboard')">
+            <i class="fas fa-home"></i>
+            Inicio
+        </a>
+        <a href="#" class="nav-tab" onclick="showDashboard('animals')">
+            <i class="fas fa-paw"></i>
+            Animales
+        </a>
+        <a href="#" class="nav-tab" onclick="showDashboard('marketplace')">
+            <i class="fas fa-store"></i>
+            Mercado
+        </a>
+        <a href="#" class="nav-tab" onclick="showDashboard('tasks')">
+            <i class="fas fa-tasks"></i>
+            Tareas
+        </a>
+        <a href="#" class="nav-tab" onclick="showDashboard('inventory')">
+            <i class="fas fa-boxes"></i>
+            Inventario
+        </a>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Dashboard -->
+        <div id="dashboard" class="dashboard active">
+            <h2>Resumen del Día</h2>
+            
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <a href="#" class="quick-action" onclick="showDashboard('animals')">
+                    <i class="fas fa-paw"></i>
+                    Animales
+                </a>
+                <a href="#" class="quick-action" onclick="showDashboard('marketplace')">
+                    <i class="fas fa-store"></i>
+                    Mercado
+                </a>
+                <a href="#" class="quick-action" onclick="showDashboard('tasks')">
+                    <i class="fas fa-tasks"></i>
+                    Tareas
+                </a>
+                <a href="#" class="quick-action" onclick="showDashboard('inventory')">
+                    <i class="fas fa-boxes"></i>
+                    Inventario
+                </a>
+            </div>
+            
+            <!-- Weather -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-cloud-sun"></i> Clima Actual
+                </div>
+                <div class="card-body">
+                    <div class="weather-card">
+                        <div class="weather-icon">
+                            <i class="fas fa-sun"></i>
+                        </div>
+                        <div class="weather-info">
+                            <div class="weather-temp">24°C</div>
+                            <div>Parcialmente nublado</div>
+                            <div>Humedad: 65%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Alerts -->
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i> Vacuna pendiente para "Lola" (Cerdo)
+            </div>
+            
+            <!-- Animals Summary -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-paw"></i> Resumen de Animales
+                </div>
+                <div class="card-body">
+                    <div style="display: flex; justify-content: space-around; text-align: center;">
+                        <div>
+                            <div style="font-size: 1.5rem; color: var(--primary);">12</div>
+                            <div>Total</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 1.5rem; color: var(--success);">10</div>
+                            <div>Saludables</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 1.5rem; color: var(--danger);">2</div>
+                            <div>Enfermos</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 1.5rem; color: var(--accent);">3</div>
+                            <div>En venta</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Tasks -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-tasks"></i> Próximas Tareas
+                </div>
+                <div class="card-body">
+                    <div class="task-item">
+                        <input type="checkbox" class="task-checkbox">
+                        <div class="task-info">
+                            <div>Alimentar cerdos</div>
+                            <div class="task-due">Hoy, 8:00 AM</div>
+                        </div>
+                    </div>
+                    <div class="task-item">
+                        <input type="checkbox" class="task-checkbox">
+                        <div class="task-info">
+                            <div>Vacunar a "Lola"</div>
+                            <div class="task-due">Hoy, 3:00 PM</div>
+                        </div>
+                    </div>
+                    <div class="task-item">
+                        <input type="checkbox" class="task-checkbox">
+                        <div class="task-info">
+                            <div>Limpiar corral</div>
+                            <div class="task-due">Mañana, 7:00 AM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Animals Dashboard -->
+        <div id="animals" class="dashboard">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2>Mis Animales</h2>
+                <button class="btn btn-accent" onclick="showForm('add-animal')">
+                    <i class="fas fa-plus"></i> Nuevo Animal
+                </button>
+            </div>
+            
+            <!-- Animal List -->
+            <div class="card">
+                <div class="card-body">
+                    <ul class="animal-list">
+                        <li class="animal-item">
+                            <div class="animal-avatar" style="background-color: #FFD700;">
+                                <i class="fas fa-piggy-bank"></i>
+                            </div>
+                            <div class="animal-info">
+                                <div class="animal-name">Lola</div>
+                                <div class="animal-details">Cerdo • 8 meses • 120 kg</div>
+                            </div>
+                            <div class="animal-status status-sick">Enferma</div>
+                        </li>
+                        <li class="animal-item">
+                            <div class="animal-avatar" style="background-color: #CD853F;">
+                                <i class="fas fa-cow"></i>
+                            </div>
+                            <div class="animal-info">
+                                <div class="animal-name">Mancha</div>
+                                <div class="animal-details">Vaca • 3 años • 450 kg</div>
+                            </div>
+                            <div class="animal-status status-healthy">Saludable</div>
+                        </li>
+                        <li class="animal-item">
+                            <div class="animal-avatar" style="background-color: #F4A460;">
+                                <i class="fas fa-kiwi-bird"></i>
+                            </div>
+                            <div class="animal-info">
+                                <div class="animal-name">Piolín</div>
+                                <div class="animal-details">Pollo • 4 meses • 2.5 kg</div>
+                            </div>
+                            <div class="animal-status status-healthy">Saludable</div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <!-- Add Animal Form (Hidden by default) -->
+            <div id="add-animal" class="card" style="display: none;">
+                <div class="card-header">
+                    Registrar Nuevo Animal
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <label class="form-label">Tipo de Animal</label>
+                            <select class="form-control">
+                                <option>Cerdo</option>
+                                <option>Vaca</option>
+                                <option>Pollo</option>
+                                <option>Cabra</option>
+                                <option>Oveja</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nombre</label>
+                            <input type="text" class="form-control" placeholder="Ej: Lola">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Raza</label>
+                            <input type="text" class="form-control" placeholder="Ej: Landrace">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Peso (kg)</label>
+                            <input type="number" class="form-control" placeholder="Ej: 120">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Fecha de Nacimiento</label>
+                            <input type="date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Estado de Salud</label>
+                            <select class="form-control">
+                                <option>Saludable</option>
+                                <option>Enfermo</option>
+                                <option>En tratamiento</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-block">Guardar Animal</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Marketplace Dashboard -->
+        <div id="marketplace" class="dashboard">
+            <h2>Mercado AgroLID</h2>
+            
+            <!-- Search Filters -->
+            <div class="card">
+                <div class="card-body">
+                    <div style="display: flex; gap: 10px;">
+                        <select class="form-control" style="flex: 2;">
+                            <option>Todos los animales</option>
+                            <option>Cerdos</option>
+                            <option>Vacas</option>
+                            <option>Pollos</option>
+                        </select>
+                        <select class="form-control" style="flex: 1;">
+                            <option>Cualquier distancia</option>
+                            <option>Menos de 10 km</option>
+                            <option>Menos de 25 km</option>
+                            <option>Menos de 50 km</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Marketplace Items -->
+            <div class="marketplace-item">
+                <div class="marketplace-image" style="background-image: url('https://images.unsplash.com/photo-1531123897727-8f129e1688ce');"></div>
+                <div class="marketplace-body">
+                    <h3 style="margin-top: 0;">Cerdo Landrace</h3>
+                    <div style="display: flex; justify-content: space-between;">
+                        <div>
+                            <div><i class="fas fa-weight-hanging"></i> 110 kg</div>
+                            <div><i class="fas fa-birthday-cake"></i> 7 meses</div>
+                            <div><i class="fas fa-map-marker-alt"></i> 12 km de distancia</div>
+                        </div>
+                        <div class="marketplace-price">$1,200,000</div>
+                    </div>
+                    <button class="btn btn-block" style="margin-top: 10px;">
+                        <i class="fas fa-shopping-cart"></i> Reservar
+                    </button>
+                </div>
+            </div>
+            
+            <div class="marketplace-item">
+                <div class="marketplace-image" style="background-image: url('https://images.unsplash.com/photo-1500595046743-cd271d694d30');"></div>
+                <div class="marketplace-body">
+                    <h3 style="margin-top: 0;">Vaca Holstein</h3>
+                    <div style="display: flex; justify-content: space-between;">
+                        <div>
+                            <div><i class="fas fa-weight-hanging"></i> 420 kg</div>
+                            <div><i class="fas fa-birthday-cake"></i> 2 años</div>
+                            <div><i class="fas fa-map-marker-alt"></i> 8 km de distancia</div>
+                        </div>
+                        <div class="marketplace-price">$3,500,000</div>
+                    </div>
+                    <button class="btn btn-block" style="margin-top: 10px;">
+                        <i class="fas fa-shopping-cart"></i> Reservar
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tasks Dashboard -->
+        <div id="tasks" class="dashboard">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2>Mis Tareas</h2>
+                <button class="btn btn-accent" onclick="showForm('add-task')">
+                    <i class="fas fa-plus"></i> Nueva Tarea
+                </button>
+            </div>
+            
+            <!-- Task Calendar -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-calendar-alt"></i> Calendario
+                </div>
+                <div class="card-body">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 15px;">
+                        <button class="btn"><i class="fas fa-chevron-left"></i></button>
+                        <div style="font-weight: bold;">Julio 2023</div>
+                        <button class="btn"><i class="fas fa-chevron-right"></i></button>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; gap: 5px; margin-bottom: 15px;">
+                        <div style="font-weight: bold; padding: 5px;">L</div>
+                        <div style="font-weight: bold; padding: 5px;">M</div>
+                        <div style="font-weight: bold; padding: 5px;">M</div>
+                        <div style="font-weight: bold; padding: 5px;">J</div>
+                        <div style="font-weight: bold; padding: 5px;">V</div>
+                        <div style="font-weight: bold; padding: 5px;">S</div>
+                        <div style="font-weight: bold; padding: 5px;">D</div>
+                        
+                        <!-- Empty days -->
+                        <div style="padding: 5px;"></div>
+                        <div style="padding: 5px;"></div>
+                        <div style="padding: 5px;"></div>
+                        <div style="padding: 5px;"></div>
+                        <div style="padding: 5px;"></div>
+                        
+                        <!-- Days with tasks -->
+                        <div style="padding: 5px; background-color: rgba(218, 165, 32, 0.2); border-radius: 4px;">1</div>
+                        <div style="padding: 5px;">2</div>
+                        <div style="padding: 5px;">3</div>
+                        <div style="padding: 5px;">4</div>
+                        <div style="padding: 5px;">5</div>
+                        <div style="padding: 5px;">6</div>
+                        <div style="padding: 5px;">7</div>
+                        <div style="padding: 5px;">8</div>
+                        <div style="padding: 5px; background-color: rgba(178, 34, 34, 0.2); border-radius: 4px;">9</div>
+                        <div style="padding: 5px;">10</div>
+                        <div style="padding: 5px;">11</div>
+                        <div style="padding: 5px;">12</div>
+                        <div style="padding: 5px;">13</div>
+                        <div style="padding: 5px;">14</div>
+                        <div style="padding: 5px; background-color: rgba(218, 165, 32, 0.2); border-radius: 4px;">15</div>
+                        <div style="padding: 5px;">16</div>
+                        <div style="padding: 5px;">17</div>
+                        <div style="padding: 5px;">18</div>
+                        <div style="padding: 5px;">19</div>
+                        <div style="padding: 5px;">20</div>
+                        <div style="padding: 5px;">21</div>
+                        <div style="padding: 5px;">22</div>
+                        <div style="padding: 5px;">23</div>
+                        <div style="padding: 5px;">24</div>
+                        <div style="padding: 5px;">25</div>
+                        <div style="padding: 5px;">26</div>
+                        <div style="padding: 5px;">27</div>
+                        <div style="padding: 5px;">28</div>
+                        <div style="padding: 5px;">29</div>
+                        <div style="padding: 5px;">30</div>
+                        <div style="padding: 5px;">31</div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 10px; margin-top: 10px;">
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 15px; height: 15px; background-color: rgba(218, 165, 32, 0.2); margin-right: 5px;"></div>
+                            <div style="font-size: 0.8rem;">Tareas</div>
+                        </div>
+                        <div style="display: flex; align-items: center;">
+                            <div style="width: 15px; height: 15px; background-color: rgba(178, 34, 34, 0.2); margin-right: 5px;"></div>
+                            <div style="font-size: 0.8rem;">Urgentes</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Task List -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-list"></i> Lista de Tareas
+                </div>
+                <div class="card-body">
+                    <div class="task-item">
+                        <input type="checkbox" class="task-checkbox">
+                        <div class="task-info">
+                            <div>Alimentar cerdos</div>
+                            <div class="task-due">Hoy, 8:00 AM</div>
+                        </div>
+                    </div>
+                    <div class="task-item">
+                        <input type="checkbox" class="task-checkbox">
+                        <div class="task-info">
+                            <div>Vacunar a "Lola"</div>
+                            <div class="task-due">Hoy, 3:00 PM</div>
+                        </div>
+                    </div>
+                    <div class="task-item">
+                        <input type="checkbox" class="task-checkbox">
+                        <div class="task-info">
+                            <div>Limpiar corral</div>
+                            <div class="task-due">Mañana, 7:00 AM</div>
+                        </div>
+                    </div>
+                    <div class="task-item">
+                        <input type="checkbox" class="task-checkbox">
+                        <div class="task-info">
+                            <div>Llevar vacas a pastar</div>
+                            <div class="task-due">Mañana, 10:00 AM</div>
+                        </div>
+                    </div>
+                    <div class="task-item">
+                        <input type="checkbox" class="task-checkbox">
+                        <div class="task-info">
+                            <div>Revisar sistema de riego</div>
+                            <div class="task-due">15 Jul, 9:00 AM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Add Task Form (Hidden by default) -->
+            <div id="add-task" class="card" style="display: none;">
+                <div class="card-header">
+                    Crear Nueva Tarea
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <label class="form-label">Título</label>
+                            <input type="text" class="form-control" placeholder="Ej: Alimentar cerdos">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Descripción</label>
+                            <textarea class="form-control" rows="3" placeholder="Detalles de la tarea"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Fecha</label>
+                            <input type="date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Hora</label>
+                            <input type="time" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Prioridad</label>
+                            <select class="form-control">
+                                <option>Normal</option>
+                                <option>Alta</option>
+                                <option>Urgente</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-block">Guardar Tarea</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Inventory Dashboard -->
+        <div id="inventory" class="dashboard">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h2>Inventario</h2>
+                <button class="btn btn-accent" onclick="showForm('add-item')">
+                    <i class="fas fa-plus"></i> Nuevo Item
+                </button>
+            </div>
+            
+            <!-- Inventory Summary -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-box-open"></i> Resumen de Inventario
+                </div>
+                <div class="card-body">
+                    <div style="display: flex; justify-content: space-around; text-align: center;">
+                        <div>
+                            <div style="font-size: 1.5rem; color: var(--primary);">24</div>
+                            <div>Total Items</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 1.5rem; color: var(--warning);">5</div>
+                            <div>Bajo Stock</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 1.5rem; color: var(--danger);">2</div>
+                            <div>Próximos a vencer</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Low Stock Alerts -->
+            <div class="card">
+                <div class="card-header" style="background-color: var(--warning); color: white;">
+                    <i class="fas fa-exclamation-triangle"></i> Alertas de Stock Bajo
+                </div>
+                <div class="card-body">
+                    <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+                        <div>Vacuna Porcina</div>
+                        <div style="color: var(--warning); font-weight: bold;">2 unidades</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+                        <div>Maíz</div>
+                        <div style="color: var(--warning); font-weight: bold;">10 kg</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 10px 0;">
+                        <div>Antibiótico</div>
+                        <div style="color: var(--warning); font-weight: bold;">3 dosis</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Expiring Soon Alerts -->
+            <div class="card">
+                <div class="card-header" style="background-color: var(--danger); color: white;">
+                    <i class="fas fa-clock"></i> Próximos a Vencer
+                </div>
+                <div class="card-body">
+                    <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+                        <div>Vitamina B12</div>
+                        <div style="color: var(--danger); font-weight: bold;">Vence en 5 días</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 10px 0;">
+                        <div>Desparasitante</div>
+                        <div style="color: var(--danger); font-weight: bold;">Vence en 8 días</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Inventory List -->
+            <div class="card">
+                <div class="card-header">
+                    <i class="fas fa-list"></i> Todos los Items
+                </div>
+                <div class="card-body">
+                    <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+                        <div>Maíz</div>
+                        <div>50 kg</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+                        <div>Vacuna Porcina</div>
+                        <div>2 unidades</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+                        <div>Antibiótico</div>
+                        <div>3 dosis</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid #eee;">
+                        <div>Vitamina B12</div>
+                        <div>5 unidades</div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; padding: 10px 0;">
+                        <div>Desparasitante</div>
+                        <div>2 unidades</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Add Item Form (Hidden by default) -->
+            <div id="add-item" class="card" style="display: none;">
+                <div class="card-header">
+                    Agregar al Inventario
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="form-group">
+                            <label class="form-label">Nombre del Item</label>
+                            <input type="text" class="form-control" placeholder="Ej: Vacuna Porcina">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Tipo</label>
+                            <select class="form-control">
+                                <option>Alimento</option>
+                                <option>Medicamento</option>
+                                <option>Vacuna</option>
+                                <option>Herramienta</option>
+                                <option>Otro</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Cantidad</label>
+                            <input type="number" class="form-control" placeholder="Ej: 10">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Unidad de Medida</label>
+                            <select class="form-control">
+                                <option>kg</option>
+                                <option>litros</option>
+                                <option>unidades</option>
+                                <option>dosis</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Fecha de Vencimiento</label>
+                            <input type="date" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Nivel de Alerta</label>
+                            <input type="number" class="form-control" placeholder="Cantidad mínima para alerta">
+                        </div>
+                        <button type="submit" class="btn btn-block">Guardar Item</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Show the selected dashboard and hide others
+        function showDashboard(dashboardId) {
+            // Hide all dashboards
+            document.querySelectorAll('.dashboard').forEach(dashboard => {
+                dashboard.classList.remove('active');
+            });
+            
+            // Show the selected dashboard
+            document.getElementById(dashboardId).classList.add('active');
+            
+            // Update active tab
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Find the tab that corresponds to this dashboard
+            let tab;
+            switch(dashboardId) {
+                case 'animals':
+                    tab = document.querySelector('.nav-tab:nth-child(2)');
+                    break;
+                case 'marketplace':
+                    tab = document.querySelector('.nav-tab:nth-child(3)');
+                    break;
+                case 'tasks':
+                    tab = document.querySelector('.nav-tab:nth-child(4)');
+                    break;
+                case 'inventory':
+                    tab = document.querySelector('.nav-tab:nth-child(5)');
+                    break;
+                default:
+                    tab = document.querySelector('.nav-tab:nth-child(1)');
+            }
+            
+            if (tab) {
+                tab.classList.add('active');
+            }
+            
+            // Hide any open forms
+            document.querySelectorAll('.card[style="display: none;"]').forEach(form => {
+                form.style.display = 'none';
+            });
+        }
+        
+        // Show a specific form
+        function showForm(formId) {
+            document.getElementById(formId).style.display = 'block';
+        }
+    </script>
+</body>
+</html>

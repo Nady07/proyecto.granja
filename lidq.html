@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>AgroLID Móvil</title>
+    <style>
+        :root {
+            --primary: #4CAF50; /* Verde agrícola */
+            --primary-dark: #388E3C;
+            --primary-light: #C8E6C9;
+            --secondary: #8D6E63; /* Café tierra */
+            --accent: #FFA000; /* Naranja acento */
+            --background: #FAFAFA;
+            --surface: #FFFFFF;
+            --error: #D32F2F;
+            --text-primary: #212121;
+            --text-secondary: #757575;
+            --border: #E0E0E0;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--background);
+            color: var(--text-primary);
+            line-height: 1.5;
+            height: 100vh;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        /* Layout móvil */
+        .app-container {
+            max-width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Header */
+        .app-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .app-title {
+            font-size: 1.25rem;
+            font-weight: 500;
+        }
+
+        .app-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .icon-button {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.25rem;
+            cursor: pointer;
+        }
+
+        /* Pantallas */
+        .screen {
+            flex: 1;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+            padding-bottom: 60px;
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        /* Navegación inferior */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: var(--surface);
+            display: flex;
+            justify-content: space-around;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 10px 5px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.75rem;
+            transition: all 0.3s;
+        }
+
+        .nav-item.active {
+            color: var(--primary);
+        }
+
+        .nav-icon {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 3px;
+        }
+
+        /* Cards */
+        .card {
+            background-color: var(--surface);
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            margin: 15px;
+            overflow: hidden;
+        }
+
+        .card-header {
+            padding: 15px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .card-title {
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .card-body {
+            padding: 15px;
+        }
+
+        /* Listas */
+        .list-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--primary);
+        }
+
+        .list-content {
+            flex: 1;
+        }
+
+        .list-title {
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .list-subtitle {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        .list-badge {
+            background-color: var(--primary-light);
+            color: var(--primary);
+            padding: 3px 8px;
+            border-radius: 10px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        /* Formularios */
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: var(--surface);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Botones */
+        .btn {
+            display: inline-block;
+            padding: 12px 20px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .btn:active {
+            background-color: var(--primary-dark);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:active {
+            background-color: var(--primary-light);
+        }
+
+        /* Alertas */
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .alert-warning {
+            background-color: #FFF3E0;
+            color: #E65100;
+        }
+
+        .alert-icon {
+            margin-right: 10px;
+            font-size: 1.5rem;
+        }
+
+        /* Animaciones */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        /* Utilidades */
+        .text-center {
+            text-align: center;
+        }
+
+        .mt-2 {
+            margin-top: 10px;
+        }
+
+        .mb-2 {
+            margin-bottom: 10px;
+        }
+
+        .p-3 {
+            padding: 15px;
+        }
+
+        /* Pantalla de login */
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100vh;
+            padding: 20px;
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .login-logo {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .login-logo i {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        .login-title {
+            font-size: 1.5rem;
+            font-weight: 500;
+            margin-bottom: 5px;
+        }
+
+        .login-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .login-form {
+            background-color: var(--surface);
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .role-selector {
+            display: flex;
+            margin-bottom: 20px;
+            gap: 10px;
+        }
+
+        .role-option {
+            flex: 1;
+            text-align: center;
+            padding: 15px 10px;
+            border-radius: 8px;
+            background-color: rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .role-option.active {
+            background-color: white;
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .role-option i {
+            display: block;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <!-- Pantalla de Login -->
+    <div id="login-screen" class="login-container">
+        <div class="login-logo">
+            <i class="fas fa-tractor"></i>
+            <h1 class="login-title">AgroLID</h1>
+            <p class="login-subtitle">Del corral a la venta, todo en tu bolsillo</p>
+        </div>
+
+        <div class="login-form">
+            <div class="role-selector">
+                <div class="role-option active" onclick="selectRole('farmer')">
+                    <i class="fas fa-leaf"></i>
+                    Agricultor
+                </div>
+                <div class="role-option" onclick="selectRole('rancher')">
+                    <i class="fas fa-paw"></i>
+                    Ganadero
+                </div>
+                <div class="role-option" onclick="selectRole('butcher')">
+                    <i class="fas fa-store"></i>
+                    Carnicero
+                </div>
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Usuario o correo">
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Contraseña">
+            </div>
+            <button class="btn" onclick="login()">
+                <i class="fas fa-sign-in-alt"></i> Ingresar
+            </button>
+            <p class="text-center mt-2">
+                <a href="#" style="color: var(--primary);">¿Olvidaste tu contraseña?</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Aplicación principal (oculta inicialmente) -->
+    <div id="app-container" class="app-container" style="display: none;">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="app-title" id="screen-title">Inicio</div>
+            <div class="app-actions">
+                <button class="icon-button">
+                    <i class="fas fa-bell"></i>
+                </button>
+                <button class="icon-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Pantallas -->
+        <div id="home-screen" class="screen active">
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle alert-icon"></i>
+                Vacunación pendiente para 3 animales
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Resumen</div>
+                </div>
+                <div class="card-body">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: 500; color: var(--primary);">24</div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary);">Animales</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: 500; color: var(--accent);">3</div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary);">En venta</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: 500; color: var(--error);">2</div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary);">Enfermos</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.5rem; font-weight: 500; color: var(--secondary);">5</div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary);">Tareas</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Tareas pendientes</div>
+                </div>
+                <div class="card-body" style="padding: 0;">
+                    <div class="list-item">
+                        <div class="list-icon">
+                            <i class="fas fa-syringe"></i>
+                        </div>
+                        <div class="list-content">
+                            <div class="list-title">Vacunar cerdos</div>
+                            <div class="list-subtitle">Hoy, 3:00 PM</div>
+                        </div>
+                        <div class="list-badge">Urgente</div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div class="list-content">
+                            <div class="list-title">Riego maíz</div>
+                            <div class="list-subtitle">Mañana, 6:00 AM</div>
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="list-content">
+                            <div class="list-title">Comprar alimento</div>
+                            <div class="list-subtitle">17 Jul, 8:00 AM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Animales recientes</div>
+                </div>
+                <div class="card-body" style="padding: 0;">
+                    <div class="list-item" onclick="navigateTo('animal-detail')">
+                        <div class="list-icon" style="background-color: #FFE0B2; color: #E65100;">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                        <div class="list-content">
+                            <div class="list-title">Lola</div>
+                            <div class="list-subtitle">Cerdo • 8 meses • 120 kg</div>
+                        </div>
+                        <div class="list-badge" style="background-color: #FFCDD2; color: #C62828;">Enferma</div>
+                    </div>
+                    <div class="list-item" onclick="navigateTo('animal-detail')">
+                        <div class="list-icon" style="background-color: #DCE775; color: #827717;">
+                            <i class="fas fa-kiwi-bird"></i>
+                        </div>
+                        <div class="list-content">
+                            <div class="list-title">Piolín</div>
+                            <div class="list-subtitle">Pollo • 4 meses • 2.5 kg</div>
+                        </div>
+                        <div class="list-badge">Saludable</div>
+                    </div>
+                    <div class="list-item" onclick="navigateTo('animal-detail')">
+                        <div class="list-icon" style="background-color: #B3E5FC; color: #0277BD;">
+                            <i class="fas fa-cow"></i>
+                        </div>
+                        <div class="list-content">
+                            <div class="list-title">Mancha</div>
+                            <div class="list-subtitle">Vaca • 3 años • 450 kg</div>
+                        </div>
+                        <div class="list-badge">Saludable</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla de Animales -->
+        <div id="animals-screen" class="screen">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Mis Animales</div>
+                    <button class="btn-outline" style="padding: 5px 10px; font-size: 0.8rem;" onclick="navigateTo('add-animal')">
+                        <i class="fas fa-plus"></i> Nuevo
+                    </button>
+                </div>
+                <div class="card-body" style="padding: 0;">
+                    <div class="list-item" onclick="navigateTo('animal-detail')">
+                        <div class="list-icon" style="background-color: #FFE0B2; color: #E65100;">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                        <div class="list-content">
+                            <div class="list-title">Lola</div>
+                            <div class="list-subtitle">Cerdo • 8 meses • 120 kg</div>
+                        </div>
+                        <div class="list-badge" style="background-color: #FFCDD2; color: #C62828;">Enferma</div>
+                    </div>
+                    <div class="list-item" onclick="navigateTo('animal-detail')">
+                        <div class="list-icon" style="background-color: #DCE775; color: #827717;">
+                            <i class="fas fa-kiwi-bird"></i>
+                        </div>
+                        <div class="list-content">
+                            <div class="list-title">Piolín</div>
+                            <div class="list-subtitle">Pollo • 4 meses • 2.5 kg</div>
+                        </div>
+                        <div class="list-badge">Saludable</div>
+                    </div>
+                    <div class="list-item" onclick="navigateTo('animal-detail')">
+                        <div class="list-icon" style="background-color: #B3E5FC; color: #0277BD;">
+                            <i class="fas fa-cow"></i>
+                        </div>
+                        <div class="list-content">
+                            <div class="list-title">Mancha</div>
+                            <div class="list-subtitle">Vaca • 3 años • 450 kg</div>
+                        </div>
+                        <div class="list-badge">Saludable</div>
+                    </div>
+                    <div class="list-item" onclick="navigateTo('animal-detail')">
+                        <div class="list-icon" style="background-color: #FFE0B2; color: #E65100;">
+                            <i class="fas fa-piggy-bank"></i>
+                        </div>
+                        <div class="list-content">
+                            <div class="list-title">Pepito</div>
+                            <div class="list-subtitle">Cerdo • 6 meses • 90 kg</div>
+                        </div>
+                        <div class="list-badge">Saludable</div>
+                    </div>
+                    <div class="list-item" onclick="navigateTo('animal-detail')">
+                        <div class="list-icon" style="background-color: #B3E5FC; color: #0277BD;">
+                            <i class="fas fa-cow"></i>
+                        </div>
+                        <div class="list-content">
+                            <div class="list-title">Blanca</div>
+                            <div class="list-subtitle">Vaca • 4 años • 500 kg</div>
+                        </div>
+                        <div class="list-badge">Saludable</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla de Marketplace -->
+        <div id="marketplace-screen" class="screen">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Marketplace</div>
+                    <div style="display: flex; gap: 5px;">
+                        <button class="btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                        <button class="btn-outline" style="padding: 5px 10px; font-size: 0.8rem;">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body" style="padding: 0;">
+                    <div class="list-item" onclick="navigateTo('product-detail')">
+                        <div style="width: 80px; height: 80px; background-image: url('https://images.unsplash.com/photo-1531123897727-8f129e1688ce'); background-size: cover; border-radius: 8px; margin-right: 15px;"></div>
+                        <div class="list-content">
+                            <div class="list-title">Cerdo Landrace</div>
+                            <div class="list-subtitle">110 kg • 7 meses • 12 km</div>
+                            <div style="font-weight: 500; color: var(--primary); margin-top: 5px;">$1,200,000</div>
+                        </div>
+                    </div>
+                    <div class="list-item" onclick="navigateTo('product-detail')">
+                        <div style="width: 80px; height: 80px; background-image: url('https://images.unsplash.com/photo-1500595046743-cd271d694d30'); background-size: cover; border-radius: 8px; margin-right: 15px;"></div>
+                        <div class="list-content">
+                            <div class="list-title">Vaca Holstein</div>
+                            <div class="list-subtitle">420 kg • 2 años • 8 km</div>
+                            <div style="font-weight: 500; color: var(--primary); margin-top: 5px;">$3,500,000</div>
+                        </div>
+                    </div>
+                    <div class="list-item" onclick="navigateTo('product-detail')">
+                        <div style="width: 80px; height: 80px; background-image: url('https://images.unsplash.com/photo-1588943211346-0908a1fb0b01'); background-size: cover; border-radius: 8px; margin-right: 15px;"></div>
+                        <div class="list-content">
+                            <div class="list-title">Pollo de engorde</div>
+                            <div class="list-subtitle">2.5 kg • 4 meses • 5 km</div>
+                            <div style="font-weight: 500; color: var(--primary); margin-top: 5px;">$25,000</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla de Tareas -->
+        <div id="tasks-screen" class="screen">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Mis Tareas</div>
+                    <button class="btn-outline" style="padding: 5px 10px; font-size: 0.8rem;" onclick="navigateTo('add-task')">
+                        <i class="fas fa-plus"></i> Nueva
+                    </button>
+                </div>
+                <div class="card-body" style="padding: 0;">
+                    <div class="list-item">
+                        <div class="list-icon">
+                            <i class="fas fa-syringe"></i>
+                        </div>
+                        <div class="list-content">
+                            <div class="list-title">Vacunar cerdos</div>
+                            <div class="list-subtitle">Hoy, 3:00 PM</div>
+                        </div>
+                        <div>
+                            <input type="checkbox" style="width: 20px; height: 20px;">
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon">
+                            <i class="fas fa-seedling"></i>
+                        </div>
+                        <div class="list-content">
+                            <div class="list-title">Riego maíz</div>
+                            <div class="list-subtitle">Mañana, 6:00 AM</div>
+                        </div>
+                        <div>
+                            <input type="checkbox" style="width: 20px; height: 20px;">
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="list-content">
+                            <div class="list-title">Comprar alimento</div>
+                            <div class="list-subtitle">17 Jul, 8:00 AM</div>
+                        </div>
+                        <div>
+                            <input type="checkbox" style="width: 20px; height: 20px;">
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon">
+                            <i class="fas fa-broom"></i>
+                        </div>
+                        <div class="list-content">
+                            <div class="list-title">Limpiar corral</div>
+                            <div class="list-subtitle">18 Jul, 7:00 AM</div>
+                        </div>
+                        <div>
+                            <input type="checkbox" style="width: 20px; height: 20px;">
+                        </div>
+                    </div>
+                    <div class="list-item">
+                        <div class="list-icon">
+                            <i class="fas fa-tractor"></i>
+                        </div>
+                        <div class="list-content">
+                            <div class="list-title">Preparar terreno</div>
+                            <div class="list-subtitle">20 Jul, 8:00 AM</div>
+                        </div>
+                        <div>
+                            <input type="checkbox" style="width: 20px; height: 20px;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla de Perfil -->
+        <div id="profile-screen" class="screen">
+            <div class="card">
+                <div class="card-body" style="text-align: center;">
+                    <div style="width: 100px; height: 100px; background-color: var(--primary-light); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 15px;">
+                        <i class="fas fa-user" style="font-size: 2.5rem; color: var(--primary);"></i>
+                    </div>
+                    <h2 style="margin-bottom: 5px;">Juan Gómez</h2>
+                    <p style="color: var(--text-secondary); margin-bottom: 20px;">Ganadero - Sincelejo, Sucre</p>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px;">
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.2rem; font-weight: 500;">24</div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary);">Animales</div>
+                        </div>
+                        <div style="text-align: center;">
+                            <div style="font-size: 1.2rem; font-weight: 500;">5</div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary);">En venta</div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn-outline mb-2">
+                        <i class="fas fa-cog"></i> Configuración
+                    </button>
+                    <button class="btn-outline mb-2">
+                        <i class="fas fa-question-circle"></i> Ayuda
+                    </button>
+                    <button class="btn-outline" onclick="logout()">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar sesión
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla de Detalle de Animal -->
+        <div id="animal-detail-screen" class="screen">
+            <div class="card">
+                <div style="height: 200px; background-image: url('https://images.unsplash.com/photo-1531123897727-8f129e1688ce'); background-size: cover;"></div>
+                <div class="card-body">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                        <h2 style="font-size: 1.3rem;">Lola</h2>
+                        <span class="list-badge" style="background-color: #FFCDD2; color: #C62828;">Enferma</span>
+                    </div>
+                    
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 15px;">
+                        <div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary);">Especie</div>
+                            <div style="font-weight: 500;">Cerdo</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary);">Raza</div>
+                            <div style="font-weight: 500;">Landrace</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary);">Edad</div>
+                            <div style="font-weight: 500;">8 meses</div>
+                        </div>
+                        <div>
+                            <div style="font-size: 0.8rem; color: var(--text-secondary);">Peso</div>
+                            <div style="font-weight: 500;">120 kg</div>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-bottom: 15px;">
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Descripción</div>
+                        <p>Cerdo hembra para engorde, con registro sanitario completo. Última vacunación hace 2 meses.</p>
+                    </div>
+                    
+                    <div style="margin-bottom: 20px;">
+                        <div style="font-size: 0.8rem; color: var(--text-secondary);">Historial de salud</div>
+                        <div style="margin-top: 10px;">
+                            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <div style="width: 10px; height: 10px; background-color: var(--success); border-radius: 50%; margin-right: 10px;"></div>
+                                <div>
+                                    <div>Vacunación - 15 May 2023</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Vacuna contra fiebre porcina</div>
+                                </div>
+                            </div>
+                            <div style="display: flex; align-items: center; margin-bottom: 10px;">
+                                <div style="width: 10px; height: 10px; background-color: var(--error); border-radius: 50%; margin-right: 10px;"></div>
+                                <div>
+                                    <div>Enfermedad - 10 Jul 2023</div>
+                                    <div style="font-size: 0.8rem; color: var(--text-secondary);">Diarrea, en tratamiento</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn mb-2">
+                        <i class="fas fa-pencil-alt"></i> Editar información
+                    </button>
+                    <button class="btn-outline">
+                        <i class="fas fa-store"></i> Publicar en marketplace
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla de Añadir Animal -->
+        <div id="add-animal-screen" class="screen">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-title">Nuevo Animal</div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label class="form-label">Tipo de animal</label>
+                        <select class="form-control form-select">
+                            <option>Seleccione...</option>
+                            <option>Cerdo</option>
+                            <option>Vaca</option>
+                            <option>Pollo</option>
+                            <option>Cabra</option>
+                            <option>Oveja</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" class="form-control" placeholder="Ej: Lola">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Raza</label>
+                        <input type="text" class="form-control" placeholder="Ej: Landrace">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Fecha de nacimiento</label>
+                        <input type="date" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Peso (kg)</label>
+                        <input type="number" class="form-control" placeholder="Ej: 120">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Estado de salud</label>
+                        <select class="form-control form-select">
+                            <option>Saludable</option>
+                            <option>Enfermo</option>
+                            <option>En tratamiento</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Foto</label>
+                        <div style="border: 1px dashed var(--border); border-radius: 8px; padding: 20px; text-align: center; cursor: pointer;">
+                            <i class="fas fa-camera" style="font-size: 1.5rem; color: var(--text-secondary); margin-bottom: 10px;"></i>
+                            <div style="color: var(--text-secondary);">Toca para agregar foto</div>
+                        </div>
+                    </div>
+                    <button class="btn">
+                        <i class="fas fa-save"></i> Guardar animal
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Navegación inferior -->
+        <nav class="bottom-nav">
+            <a href="#" class="nav-item active" onclick="showScreen('home-screen', 'Inicio')">
+                <i class="fas fa-home nav-icon"></i>
+                Inicio
+            </a>
+            <a href="#" class="nav-item" onclick="showScreen('animals-screen', 'Animales')">
+                <i class="fas fa-paw nav-icon"></i>
+                Animales
+            </a>
+            <a href="#" class="nav-item" onclick="showScreen('marketplace-screen', 'Marketplace')">
+                <i class="fas fa-store nav-icon"></i>
+                Mercado
+            </a>
+            <a href="#" class="nav-item" onclick="showScreen('tasks-screen', 'Tareas')">
+                <i class="fas fa-tasks nav-icon"></i>
+                Tareas
+            </a>
+            <a href="#" class="nav-item" onclick="showScreen('profile-screen', 'Perfil')">
+                <i class="fas fa-user nav-icon"></i>
+                Perfil
+            </a>
+        </nav>
+    </div>
+
+    <script>
+        // Variables globales
+        let currentUserRole = 'rancher';
+        
+        // Funciones de navegación
+        function showScreen(screenId, title) {
+            // Ocultar todas las pantallas
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            
+            // Mostrar la pantalla seleccionada
+            document.getElementById(screenId).classList.add('active');
+            document.getElementById('screen-title').textContent = title;
+            
+            // Actualizar navegación inferior
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.classList.remove('active');
+            });
+            
+            // Marcar como activo el ítem correspondiente
+            const navItems = document.querySelectorAll('.nav-item');
+            for (let i = 0; i < navItems.length; i++) {
+                if (navItems[i].textContent.includes(title)) {
+                    navItems[i].classList.add('active');
+                    break;
+                }
+            }
+            
+            // Animación
+            document.getElementById(screenId).classList.add('fade-in');
+            setTimeout(() => {
+                document.getElementById(screenId).classList.remove('fade-in');
+            }, 300);
+        }
+        
+        function navigateTo(screen) {
+            switch(screen) {
+                case 'animal-detail':
+                    showScreen('animal-detail-screen', 'Detalle animal');
+                    break;
+                case 'add-animal':
+                    showScreen('add-animal-screen', 'Nuevo animal');
+                    break;
+                case 'product-detail':
+                    // Aquí iría la pantalla de detalle de producto
+                    alert('Mostrar pantalla de detalle de producto');
+                    break;
+                case 'add-task':
+                    // Aquí iría la pantalla para añadir tarea
+                    alert('Mostrar pantalla para añadir tarea');
+                    break;
+            }
+        }
+        
+        // Funciones de autenticación
+        function selectRole(role) {
+            currentUserRole = role;
+            document.querySelectorAll('.role-option').forEach(option => {
+                option.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+        
+        function login() {
+            // Simular inicio de sesión
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('app-container').style.display = 'flex';
+            
+            // Ajustar según el rol seleccionado
+            if (currentUserRole === 'butcher') {
+                document.querySelector('.nav-item:nth-child(2)').style.display = 'none';
+                document.querySelector('.nav-item:nth-child(4)').style.display = 'none';
+            }
+        }
+        
+        function logout() {
+            // Simular cierre de sesión
+            document.getElementById('login-screen').style.display = 'block';
+            document.getElementById('app-container').style.display = 'none';
+        }
+        
+        // Inicialización
+        document.addEventListener('DOMContentLoaded', function() {
+            // Configurar eventos para los elementos de lista
+            document.querySelectorAll('.list-item').forEach(item => {
+                item.style.cursor = 'pointer';
+            });
+        });
+    </script>
+</body>
+</html>
